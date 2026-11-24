@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "archive": {
+    "filename": "capital-project-20261124.zip",
+    "size": 50433573,
+    "sha256": "1887078a1260d7e8e5e82016fef8122eb03817065e894f95f2618cda312b6d66",
+    "root_directory": "project",
+    "formal_file_count_including_manifest": 4427
+  },
+  "parts": [
+    {
+      "name": "capital-project-20261124.part01",
+      "size": 8000000,
+      "sha256": "3241efcfe859e1496082838c277b676f8f1df7be796d58a66dcf1d506fe2eae7"
+    },
+    {
+      "name": "capital-project-20261124.part02",
+      "size": 8000000,
+      "sha256": "8eb664dae0949845d49e7de3418e4e60208a844cf8739d4d264389233d914fb2"
+    },
+    {
+      "name": "capital-project-20261124.part03",
+      "size": 8000000,
+      "sha256": "62665489064a7859168fb331179bcb1b34f56d062846b5d583d89336e1797b61"
+    },
+    {
+      "name": "capital-project-20261124.part04",
+      "size": 8000000,
+      "sha256": "054b58eea9cee62e2351cc780df2e94d3fb4af88615385d0ab51056317ab2322"
+    },
+    {
+      "name": "capital-project-20261124.part05",
+      "size": 8000000,
+      "sha256": "2d0d43c857ef820e1eaa4893b30390eba18d82a6f57c65449069c8d3fcf3756b"
+    },
+    {
+      "name": "capital-project-20261124.part06",
+      "size": 8000000,
+      "sha256": "387c5137db1c7cae111a6b388b815930ccf37fd4d5fb488dfae1906f28eb375a"
+    },
+    {
+      "name": "capital-project-20261124.part07",
+      "size": 2433573,
+      "sha256": "4a569e19c598dd1b36fcc3883b78000e2d9025e54ab2d5a70430f42734f3be6a"
+    }
+  ],
+  "original_manuscript_files": [
+    {
+      "archive_path": "project/pdf/九笔整百付款_多角度严谨分析.pdf",
+      "repository_path": "九笔整百付款_多角度严谨分析.pdf",
+      "size": 929925,
+      "sha256": "928e176a2260b56d5aba94bfd2b549abaef64e72e921a20deeec62100a33d421"
+    },
+    {
+      "archive_path": "project/src/九笔整百付款_多角度严谨分析.tex",
+      "repository_path": "九笔整百付款_多角度严谨分析.tex",
+      "size": 134892,
+      "sha256": "318d3cc2ee3c8e4fdc29fb35574c3f54049516d54de26122238ca0b7666b150b"
+    }
+  ],
+  "reference_1_status": "OPEN",
+  "restoration": {
+    "script": "restore_project.py",
+    "default_output_directory": "project",
+    "automatic_project_script_execution": false,
+    "network_required": false
+  }
+}

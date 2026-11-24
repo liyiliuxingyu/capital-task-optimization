@@ -1,0 +1,2811 @@
+% !TeX program = xelatex
+% 本文件无需外部图片或章节文件；使用 XeLaTeX 连续编译两次以更新目录与交叉引用。
+\documentclass[UTF8,a4paper]{ctexbook}
+\usepackage[left=20mm,right=20mm,top=22mm,bottom=22mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,longtable,tabularx,array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,matrix,fit,decorations.pathreplacing,patterns,backgrounds}
+\usepackage{fancyvrb}
+\usepackage{xurl}
+\usepackage{hyperref}
+\hypersetup{hidelinks,unicode=true,pdftitle={九笔整百付款的最优资金配置及其代数与分析结构}}
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{example}[theorem]{例}
+\newtheorem{remark}[theorem]{说明}
+\renewcommand{\proofname}{证明}
+\numberwithin{equation}{chapter}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\ip}[2]{\left\langle#1,#2\right\rangle}
+\newcommand{\OptimalSetCount}{4932}
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\id}{id}
+\title{九笔整百付款的最优资金配置\\及其代数与分析结构}
+\author{}
+\date{}
+\begin{document}
+\frontmatter
+\maketitle
+\chapter*{结论与操作指南}
+\addcontentsline{toc}{chapter}{结论与操作指南}
+\label{guide:chapter}
+
+先给出结论与可直接执行的步骤，随后再作数学论证。本指南沿用的条件是：每笔为正整百金额、严格少于一万元、全部互异；累计有效付款严格超过八万元；分两轮付款，每轮结束后到柜台全额回收，共两次柜台。各轮内部没有其他回流，且不补钱、不借款、无费用或损耗。以下金额均以元为单位。
+
+\section*{一、按原定优先次序：准备41100元}
+
+按“先让付款笔数最少，再让初始本金最少”的次序，结论为
+\[
+\boxed{\text{本金 }41100\text{ 元，付款 }9\text{ 笔，柜台 }2\text{ 次。}}
+\]
+下面的顺序同时实现前八笔连续递减、最后一笔补差最少。\textbf{准备好 $41100$ 元后，先在手机上操作四笔，再去第一次柜台。}
+
+\begingroup
+\renewcommand{\arraystretch}{1.35}
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}p{21mm}Xrr@{}}
+\toprule
+阶段 & 具体操作 & 可用本金 & 有效累计\\
+\midrule
+第一轮手机 & 依次付 $9900$、$9800$、$9700$、$9600$；本轮合计 $39000$。 & 2100 & 39000\\
+第一次柜台 & 全额回收 $39000$，与保留的 $2100$ 合并。 & 41100 & 39000\\
+第二轮手机 & 依次付 $9500$、$9400$、$9300$、$9200$、$3700$；本轮合计 $41100$。 & 0 & 80100\\
+第二次柜台 & 全额回收 $41100$，全部本金回到付款侧。 & 41100 & 80100\\
+\bottomrule
+\end{tabularx}
+\end{center}
+\endgroup
+
+表中最后两列分别记录本行操作完成后的可用本金与有效累计。第一次柜台实际回收的是 $39000$ 元；加上原来保留的 $2100$ 元，才恢复为 $41100$ 元可用本金。
+
+\noindent\textbf{付款顺序核对：}
+\[
+\underbrace{9900,9800,9700,9600}_{\text{随后第一次柜台回收}} ;\quad
+9500,9400,9300,9200,3700.
+\]
+第九笔结束后进行第二次柜台回收。前八笔从 $9900$ 元到 $9200$ 元，每次减少 $100$ 元；最后一笔为 $3700$ 元。九笔有效付款累计为 $80100$ 元，最终收回的本金为 $41100$ 元。
+
+\noindent\textbf{计数口径：}九笔指计入任务的手机付款，两次柜台回收另计。最终回收已经包括在两次柜台中。累计付款金额记录同一本金先后支付的总额，回收本身不增加该累计。
+
+最少笔数、最低本金及最小尾款的证明，分别见定理\ref{int:nine}、定理\ref{int:capital}与定理\ref{seq:tail}。本页先提供执行流程，证明安排在后面的数学正文。
+
+\clearpage
+\section*{二、另加九笔全部连续的要求：准备43500元}
+
+如果另外规定\textbf{全部九笔都必须构成连续整百数列}，可以使用从 $9300$ 元到 $8500$ 元的方案：
+\[
+9300,9200,9100,9000,8900,8800,8700,8600,8500.
+\]
+这九笔合计仍为 $80100$ 元。在这一附加条件下，最低本金为 $43500$ 元。准备该金额后，按下表操作。
+
+\begingroup
+\renewcommand{\arraystretch}{1.35}
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}p{21mm}Xrr@{}}
+\toprule
+阶段 & 具体操作 & 可用本金 & 有效累计\\
+\midrule
+第一轮手机 & 依次付 $9300$、$9200$、$9100$、$9000$；本轮合计 $36600$。 & 6900 & 36600\\
+第一次柜台 & 全额回收 $36600$，与保留的 $6900$ 合并。 & 43500 & 36600\\
+第二轮手机 & 依次付 $8900$、$8800$、$8700$、$8600$、$8500$；本轮合计 $43500$。 & 0 & 80100\\
+第二次柜台 & 全额回收 $43500$，全部本金回到付款侧。 & 43500 & 80100\\
+\bottomrule
+\end{tabularx}
+\end{center}
+\endgroup
+
+\section*{三、两个方案怎样选择}
+
+\begingroup
+\renewcommand{\arraystretch}{1.3}
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}Xrrr@{}}
+\toprule
+金额结构 & 所需本金 & 付款笔数 & 柜台次数\\
+\midrule
+前八笔从 $9900$ 至 $9200$，最后付 $3700$ & 41100 & 9 & 2\\
+全部九笔从 $9300$ 连续递减至 $8500$ & 43500 & 9 & 2\\
+\bottomrule
+\end{tabularx}
+\end{center}
+\endgroup
+
+\textbf{沿用原定“笔数最少、再本金最少”的目标，就执行本指南第一部分的 $41100$ 元方案。}若把“九笔全部连续”列为额外的硬条件，就执行第二部分的 $43500$ 元方案。两者的付款笔数、柜台次数和有效累计金额相同，后者多需要 $2400$ 元本金。全部连续时的本金下界及达到构造见命题\ref{seq:all-contiguous}。
+
+若把优化次序另改为“本金优先，允许增加付款笔数”，还有十笔、$40100$ 元本金的方案，见定理\ref{int:pareto}。这个目标不同于本书首先采用的九笔优先目标。
+
+\section*{四、后面的数学论述怎样展开}
+
+摘要与目录之后，正文先统一任务条件、金额单位和回收规则，再完整证明九笔、$41100$ 元本金及 $3700$ 元尾款的最优性。随后分别讨论连续数列与其他方案，展开数学分析、高等代数、有限维泛函分析、抽象代数和范畴论的表述，最后给出一般化与复算算法。所有下界、等号条件和达到下界的操作构造都在正文中逐项论证。
+\chapter*{摘要}
+\addcontentsline{toc}{chapter}{摘要}
+研究如下有限离散优化问题：每笔有效付款是正整百金额，所有金额互不相同，每笔严格少于一万元，累计付款严格超过八万元；有效付款分为两轮，第一轮后到柜台全额回收一次，第二轮后再到柜台全额回收一次。首先最小化有效付款笔数，其次最小化初始本金；在此基础上，进一步要求前八笔构成连续整百数列，最后一笔完成补差。
+
+本文证明最少付款笔数为九，九笔条件下的最低本金为 $41100$ 元，最小可行尾款为 $3700$ 元。相应顺序为前四笔 $9900,9800,9700,9600$ 元，回收 $39000$ 元后，再付 $9500,9400,9300,9200,3700$ 元，最后回收 $41100$ 元。九笔累计 $80100$ 元，初始本金在整个过程中保持守恒。
+
+在完整初等证明之后，本文使用数论中的取整、同余与整数分拆，数学分析中的分段函数、左右导数与扰动界，高等代数中的关联矩阵、零空间与整数格，有限维泛函分析中的对偶范数与支撑泛函，抽象代数中的自由交换幺半群、群化与生成多项式，以及范畴论中的状态图、自由路径范畴与计数函子，对同一问题作相互兼容的表述。进一步给出全部九笔最低本金金额集合与整数分拆的双射，证明该类集合恰有 \OptimalSetCount\ 个；给出连续金额、断点个数、缺数个数与本金优先之间的区别。文中所有用于得出本实例数值结论的步骤均展开证明，数值程序仅作可复核的有限核验。
+
+\noindent\textbf{关键词：}互异整数；资金守恒；两轮分组；支撑函数；整数格；生成函数；路径范畴。
+
+\tableofcontents
+\mainmatter
+
+\chapter{任务条件、执行语义与主要结论}\label{model:chapter}
+
+\section{最终采用的任务条件}
+本文以已经确定的执行流程为研究对象。付款侧记为 $P$，接收侧记为 $Q$；只跟踪属于本任务的资金。初始时 $P$ 有本金 $B$，$Q$ 的本任务资金余额为零。所有付款与回收均无费用、无损耗，不另外补入资金，也不借入资金。
+
+\begin{definition}[有效付款与柜台回收]\label{model:rules}
+一笔有效付款是从 $P$ 转移到 $Q$ 的正金额，计入任务累计金额。各笔有效付款满足
+\[
+\alpha_i\in100\Z_{>0},\qquad \alpha_i<10000,
+\qquad \alpha_i\ne\alpha_j\quad(i\ne j).
+\]
+累计有效付款必须满足
+\begin{equation}\label{model:strict-target}
+\sum_{i=1}^{n}\alpha_i>80000.
+\end{equation}
+一次柜台回收把当前接收侧的本任务资金全部转回付款侧。回收不计入式\eqref{model:strict-target}，也不受有效付款金额互异的约束。本任务采用两次柜台回收：第一次在第一轮付款结束后，第二次在全部付款结束后。两轮内部没有其他资金回流。
+\end{definition}
+
+两次柜台对应两个实际回收环节。最后一次回收必须包括在次数限制内。因此，不能在第二次回收之后继续付款，再把随后发生的第三次回收排除在计数之外。本书把上述两次回收分别作为第一次、第二次柜台处理，不再引入一次到场合并多个回收环节的额外安排。
+
+\begin{definition}[两轮执行方案]\label{model:plan}
+两轮方案由一列金额 $(\alpha_1,\ldots,\alpha_n)$ 和一个切分位置 $k$ 组成，其中 $1\le k\le n-1$。先依次支付前 $k$ 笔，再全额回收；随后依次支付其余 $n-k$ 笔，再全额回收。记两轮金额为
+\[
+S_1=\sum_{i=1}^{k}\alpha_i,
+\qquad
+S_2=\sum_{i=k+1}^{n}\alpha_i.
+\]
+可执行性要求任意时刻的付款侧和接收侧余额均不为负，最终全部本金返回付款侧。
+\end{definition}
+
+\section{三个依次处理的优化目标}
+首先比较有效付款笔数 $n$。只有在笔数同为最少时，才比较初始本金 $B$。这就是按 $(n,B)$ 的字典序最小化：$(n_1,B_1)$ 优于 $(n_2,B_2)$，当且仅当 $n_1<n_2$，或 $n_1=n_2$ 且 $B_1<B_2$。
+
+用户最后选定的附加结构是：前八笔为连续整百金额，最后一笔补差。本文先解决 $(n,B)$ 的优化，再在九笔方案中求最小尾款，并验证该尾款与前八笔连续的要求可以同时实现。这里的连续允许按金额每次减少 $100$ 元执行；增加次序与减少次序对资金切分的影响在第\ref{seq:chapter}章单独计算。
+
+\begin{remark}[三个不同的次数]
+有效付款笔数、资金回收次数和全部操作事件数不是同一个量。本文最终方案有九笔有效付款、两次柜台回收，合计十一项资金转移事件。回收的金额可以等于某笔付款或某轮合计，因为互异要求只作用于九笔有效付款。
+\end{remark}
+
+\section{按百元为单位的整数化}
+令
+\[
+x_i=\frac{\alpha_i}{100},\qquad b=\frac{B}{100}.
+\]
+金额条件变为
+\begin{equation}\label{model:integer}
+x_i\in\{1,2,\ldots,99\},\quad x_i\ne x_j\ (i\ne j),
+\qquad \sum_{i=1}^{n}x_i\ge801.
+\end{equation}
+上界是 $99$，因为 $100$ 个百元等于 $10000$ 元，而任务要求严格小于。总和下界是 $801$，因为整数严格大于 $800$ 的最小值是 $801$。这两个取整步骤分别控制单笔上界和累计门槛，不能把严格不等号替换成允许等号的不等号。
+
+\begin{table}[htbp]
+\centering
+\caption{主要符号及其单位}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+符号 & 含义\\
+\midrule
+$\alpha_i,B,S_1,S_2$ & 元为单位的单笔金额、本金和两轮合计\\
+$x_i,b,s_1,s_2$ & 相应金额除以 $100$ 后的数值；最优本金的 $b$ 为整数\\
+$n,k$ & 有效付款总笔数、第一次回收前的付款笔数\\
+$N,s$ & 一般模型中的最大允许整数金额、最小累计整数总额；本例为 $99,801$\\
+$H_N(k)$ & 从 $1,\ldots,N$ 中选 $k$ 个不同整数的最大总和\\
+$P,Q$ & 付款侧、接收侧，指本任务资金所在的两侧\\
+$G,M$ & 排序后金额集合的断点位置数、区间内缺失整百数个数\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{现金守恒与完整执行}
+\begin{proposition}[两轮的资金要求]\label{model:two-loads}
+对一个满足金额条件的两轮方案，能够执行并最终全额收回本金的充要条件是
+\begin{equation}\label{model:budget-max}
+B\ge\max\{S_1,S_2\}.
+\end{equation}
+因此，该固定方案的最少本金为 $\max\{S_1,S_2\}$。
+\end{proposition}
+\begin{proof}
+第一轮开始时付款侧只有 $B$ 元。该轮没有回流，完成该轮后余额为 $B-S_1$。余额必须不小于零，所以 $B\ge S_1$。第一轮全额回收后，付款侧余额为 $(B-S_1)+S_1=B$。第二轮没有回流，结束后余额为 $B-S_2$，所以还必须有 $B\ge S_2$。这证明必要性。
+
+反过来，设 $B\ge\max\{S_1,S_2\}$。因为每笔付款为正，第一轮任何前缀金额不超过 $S_1$，付款侧余额至少为 $B-S_1\ge0$。接收侧余额是已经收到的若干正金额之和，也不小于零。全额回收后，付款侧恢复为 $B$，接收侧恢复为零。第二轮任一前缀金额不超过 $S_2$，两侧余额仍不为负。最终回收将接收侧的 $S_2$ 转回，付款侧成为 $(B-S_2)+S_2=B$。这证明充分性以及最终本金全部返回。
+\end{proof}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Latex, node distance=7mm,
+ st/.style={draw,rounded corners=1pt,align=center,text width=8.2cm,minimum height=9mm,font=\small}]
+\node[st] (a) {初始：付款侧 $B$，接收侧 $0$，任务累计 $0$};
+\node[st,below=of a] (b) {第一轮后：付款侧 $B-S_1$，接收侧 $S_1$\\任务累计 $S_1$};
+\node[st,below=of b] (c) {第一次回收后：付款侧 $B$，接收侧 $0$\\任务累计仍为 $S_1$};
+\node[st,below=of c] (d) {第二轮后：付款侧 $B-S_2$，接收侧 $S_2$\\任务累计 $S_1+S_2$};
+\node[st,below=of d] (e) {第二次回收后：付款侧 $B$，接收侧 $0$\\任务累计仍为 $S_1+S_2$};
+\draw[->] (a)--node[right,font=\footnotesize]{第一轮付款} (b);
+\draw[->] (b)--node[right,font=\footnotesize]{柜台回收 $S_1$} (c);
+\draw[->] (c)--node[right,font=\footnotesize]{第二轮付款} (d);
+\draw[->] (d)--node[right,font=\footnotesize]{柜台回收 $S_2$} (e);
+\end{tikzpicture}
+\caption{两次柜台回收均计入流程；有效付款累计与持有本金分别计量。}
+\label{model:cash-figure}
+\end{figure}
+
+\section{最终方案的逐步账本}
+后文将证明下表不仅可执行，而且达到三项最优值：最少九笔、九笔条件下最少本金 $41100$ 元、最小尾款 $3700$ 元。
+
+\begin{table}[htbp]
+\centering
+\caption{全部事件及两侧余额（金额单位：元）}\label{model:ledger}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+事件 & 有效累计 & 付款侧余额 & 接收侧余额 & 已回收次数\\
+\midrule
+初始 & 0 & 41100 & 0 & 0\\
+付款 9900 & 9900 & 31200 & 9900 & 0\\
+付款 9800 & 19700 & 21400 & 19700 & 0\\
+付款 9700 & 29400 & 11700 & 29400 & 0\\
+付款 9600 & 39000 & 2100 & 39000 & 0\\
+回收 39000 & 39000 & 41100 & 0 & 1\\
+付款 9500 & 48500 & 31600 & 9500 & 1\\
+付款 9400 & 57900 & 22200 & 18900 & 1\\
+付款 9300 & 67200 & 12900 & 28200 & 1\\
+付款 9200 & 76400 & 3700 & 37400 & 1\\
+付款 3700 & 80100 & 0 & 41100 & 1\\
+回收 41100 & 80100 & 41100 & 0 & 2\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{example}[把累计任务金额与本金分开]
+第一轮四笔合计为
+\[
+9900+9800+9700+9600=39000.
+\]
+付款侧保留 $41100-39000=2100$ 元，第一次回收后可用余额为 $2100+39000=41100$ 元。第二轮合计为
+\[
+9500+9400+9300+9200+3700=41100.
+\]
+两轮有效累计为 $39000+41100=80100$ 元，而最后全部收回的本金仍为 $41100$ 元。累计金额增加来自同一本金先后支付，不代表任务产生了 $80100$ 元净收入。
+\end{example}
+
+\section{各数学角度解决的具体问题}
+整数极值确定笔数、本金和尾款的数值；数论分析整百格点、连续数列与分拆计数；数学分析研究预算函数的连续性、左右导数和扰动稳定性；线性代数刻画资金守恒和前缀余额；有限维泛函分析解释最大轮负载的对偶表示和下界证书；抽象代数区分金额集合、计数不变量和带分组的选择；范畴论保存执行先后、状态合法性和回收次数。高级表述的作用与所保留的信息会分别说明，所有数值最优性仍落实为可检查的不等式与达到下界的构造。
+
+\chapter{数论与离散极值：笔数和本金的完整证明}\label{int:chapter}
+
+\section{互异整数的最大总和}
+\begin{lemma}[固定笔数的最大总和]\label{int:maxsum}
+设 $N,k$ 为整数，$1\le k\le N$。从 $\{1,\ldots,N\}$ 中选取 $k$ 个不同整数，其最大总和为
+\begin{equation}\label{int:H}
+H_N(k)=kN-\frac{k(k-1)}2.
+\end{equation}
+达到最大总和的集合唯一，为 $\{N-k+1,\ldots,N\}$。另定义 $H_N(0)=0$。
+\end{lemma}
+\begin{proof}
+将所选整数递增排列为 $a_1<\cdots<a_k$。对任意 $i$，在 $a_i$ 后面还有 $k-i$ 个不同且更大的整数，所以
+\[
+a_k\ge a_i+(k-i).
+\]
+结合 $a_k\le N$，得到 $a_i\le N-k+i$。对 $i=1,\ldots,k$ 求和，
+\[
+\sum_{i=1}^{k}a_i\le\sum_{i=1}^{k}(N-k+i)
+=k(N-k)+\frac{k(k+1)}2
+=kN-\frac{k(k-1)}2.
+\]
+选择 $a_i=N-k+i$ 时，每个不等式都取等号，得到所给上界。若总和取等号，则
+\[
+\sum_{i=1}^{k}\bigl(N-k+i-a_i\bigr)=0.
+\]
+各括号内均为非负整数，它们的和为零迫使每一个都等于零，因此每个 $a_i$ 均被唯一确定。
+\end{proof}
+
+\begin{lemma}[中间整数总和均可实现]\label{int:interval}
+仍设 $1\le k\le N$。存在 $k$ 个来自 $1,\ldots,N$ 的互异整数，其总和恰为整数 $s$，当且仅当
+\begin{equation}\label{int:interval-range}
+\frac{k(k+1)}2\le s\le H_N(k).
+\end{equation}
+\end{lemma}
+\begin{proof}
+递增排列后，第 $i$ 项至少为 $i$，故总和至少为 $k(k+1)/2$；上界由引理\ref{int:maxsum}给出。
+
+证明充分性。记
+\[
+r=s-\frac{k(k+1)}2.
+\]
+由条件有 $0\le r\le k(N-k)$。对 $r$ 作带余除法，写成
+\[
+r=kq+t,\qquad q\in\Z_{\ge0},\quad 0\le t<k.
+\]
+定义
+\[
+a_i=\begin{cases}
+i+q,&1\le i\le k-t,\\
+i+q+1,&k-t<i\le k.
+\end{cases}
+\]
+当 $t=0$ 时，第二段为空。每一段内相邻两项相差 $1$，若两段都非空，分界处相差 $2$，所以各项严格递增。最小项至少为 $1$。若 $t=0$，则 $q\le N-k$，最大项为 $k+q\le N$。若 $t>0$，由 $kq+t\le k(N-k)$ 得 $q<N-k$，因而 $q\le N-k-1$，最大项 $k+q+1\le N$。最后，
+\[
+\sum_{i=1}^{k}a_i=\frac{k(k+1)}2+kq+t=s.
+\]
+因此构造满足全部要求。
+\end{proof}
+
+\begin{example}[五个不同整数合计 $411$]
+取 $N=95,k=5,s=411$。此时
+\[
+r=411-15=396=5\times79+1.
+\]
+引理的构造给出 $80,81,82,83,85$。总和为 $411$，每项不超过 $95$。另一种选择 $37,92,93,94,95$ 也有相同的总和，说明存在性构造不必给出唯一集合。
+\end{example}
+
+\section{最少付款笔数为九}
+\begin{theorem}[最少笔数]\label{int:nine}
+在定义\ref{model:rules}的金额条件下，即使暂不限制本金，最少有效付款笔数也为九。
+\end{theorem}
+\begin{proof}
+按百元整数单位计算，允许值为 $1,\ldots,99$，总和至少为 $801$。八个不同整数的最大总和为
+\[
+H_{99}(8)=8\times99-\frac{8\times7}{2}=792-28=764<801.
+\]
+如果笔数小于八，可以补入尚未选择的正整数，补足到八笔后总和增加；补足后的总和仍不超过 $764$，所以原总和也不能达到 $801$。因此 $n\ge9$。
+
+九个整数
+\[
+99,98,97,96,95,94,93,92,37
+\]
+全部位于 $1,\ldots,99$，互不相同，且
+\[
+(99+98+97+96)+(95+94+93+92+37)=390+411=801.
+\]
+这些整数给出九笔可行金额。按照两轮和 $390,411$ 切分，命题\ref{model:two-loads}说明本金 $41100$ 元足以执行。因此九笔下界能够达到。
+\end{proof}
+
+\section{九笔条件下的最低本金}
+\begin{theorem}[本金下界与达到下界的条件]\label{int:capital}
+对九笔两轮方案，最少本金为
+\[
+\boxed{B^*=41100\text{ 元}}.
+\]
+而且，一个九笔金额集合能够以 $41100$ 元本金完成两轮付款，当且仅当它可以写成
+\begin{equation}\label{int:all-optimal}
+\{96,97,98,99\}\ \cup\ \{a_1,a_2,a_3,a_4,a_5\}
+\end{equation}
+的百元整数形式，其中
+\[
+1\le a_1<a_2<a_3<a_4<a_5\le95,
+\qquad \sum_{i=1}^{5}a_i=411.
+\]
+执行时，四个最大值必须构成一轮，其余五个构成另一轮；两轮顺序可以交换。
+\end{theorem}
+\begin{proof}
+先证明下界。九笔分为两轮，若两轮都至少五笔，总笔数至少为十，产生矛盾。因此笔数较少的一轮至多四笔。该轮的整数总和至多为
+\[
+H_{99}(4)=99+98+97+96=390.
+\]
+设另一轮的整数总和为 $s'$。累计至少为 $801$，所以
+\[
+s'\ge801-390=411.
+\]
+该轮付款之间没有回流，必须由初始本金覆盖。由命题\ref{model:two-loads}，有 $B\ge100s'\ge41100$。定理\ref{int:nine}中的构造已经以这个本金完成任务，所以下界达到。
+
+现在刻画所有等号情形。设 $B=41100$，把笔数较少的一轮总和记为 $s_-$，另一轮记为 $s_+$。有
+\[
+s_-\le390,\qquad s_+\le411,\qquad s_-+s_+\ge801.
+\]
+前两个不等式之和为 $s_-+s_+\le801$，故三式只能同时取等号：
+\begin{equation}\label{int:equality-loads}
+s_-=390,\qquad s_+=411,\qquad s_-+s_+=801.
+\end{equation}
+若笔数较少的一轮至多三笔，其总和至多为 $H_{99}(3)=294$，不能等于 $390$。所以这一轮恰好四笔。由引理\ref{int:maxsum}的等号唯一性，四笔只能为 $96,97,98,99$。其余五笔不得与这四笔重复，因此均在 $1,\ldots,95$ 中，且总和为 $411$。
+
+反过来，取任意满足式\eqref{int:all-optimal}条件的集合，将四笔最大值和其余五笔分成两轮。两轮和分别为 $390,411$，每笔正数、互异且不超过 $99$，累计恰为 $801$。命题\ref{model:two-loads}保证本金 $41100$ 元可以执行。交换两轮只交换两个轮合计，最大值仍为 $41100$ 元。
+\end{proof}
+
+\begin{example}[检查少于 $41100$ 元的九笔方案]
+若准备 $41000$ 元，较少笔数的一轮最多支付 $39000$ 元，另一轮最多支付 $41000$ 元，累计最多为 $80000$ 元。若准备 $41099$ 元，因为各轮总和都是整百元，另一轮仍最多只能支付 $41000$ 元，累计上界也仍是 $80000$ 元。增加不满一个百元的备用余额不能跨过本题的离散门槛。
+\end{example}
+
+\section{本金优先时的不同答案}
+称可行点 $(n',B')$ 支配 $(n,B)$，是指 $n'\le n$、$B'\le B$，并且至少一个不等式严格成立。没有其他可行点支配的点称为不被支配点；全部这种点构成 Pareto 前沿。
+\begin{theorem}[两种最优取舍]\label{int:pareto}
+若两次回收的流程不变，但允许增加付款笔数，则全局最少本金为 $40100$ 元；在该本金下最少需要十笔。以 $(n,B)$ 为坐标，全部不被支配的可行点仅有
+\[
+(9,41100),\qquad (10,40100).
+\]
+\end{theorem}
+\begin{proof}
+假设本金 $B<40100$ 元。任何一轮的付款总额不超过 $B$，并且是整百元，所以每轮最多为 $40000$ 元，两轮累计最多 $80000$ 元。这与严格超过 $80000$ 元矛盾，因此 $B\ge40100$。
+
+取两轮金额
+\[
+7500,7700,8100,8200,8600;
+\qquad
+7600,7800,7900,8300,8400.
+\]
+第一轮合计 $40100$ 元，第二轮合计 $40000$ 元。十个金额互异、整百且均少于 $10000$ 元，累计 $80100$ 元。于是 $40100$ 元下界达到。九笔方案由定理\ref{int:capital}至少需要 $41100$ 元，所以本金 $40100$ 元时至少十笔；这个构造的十笔也达到笔数下界。
+
+所有可行方案都至少九笔。若恰好九笔，其本金至少为 $41100$ 元；除 $(9,41100)$ 本身外，其余这类可行点都被 $(9,41100)$ 支配。若至少十笔，其本金至少为 $40100$ 元；除 $(10,40100)$ 本身外，笔数或本金至少一个更大，因而都被 $(10,40100)$ 支配。两个所列方案，一个笔数少，一个本金少，彼此均不支配对方。结合所有可行点的分类，这就给出了完整的 Pareto 前沿。
+\end{proof}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=2cm,y=.12cm,>=Latex]
+\draw[->] (8.45,395)--(11.65,395) node[right]{付款笔数 $n$};
+\draw[->] (8.45,395)--(8.45,422) node[above]{本金（百元）};
+\foreach \x in {9,10,11}{\draw (\x,394.4)--(\x,395.6);\node[below] at (\x,394.4){$\x$};}
+\foreach \y in {401,411}{\draw (8.4,\y)--(8.5,\y);\node[left] at (8.4,\y){$\y$};}
+\draw[dashed] (8.45,411)--(9,411)--(9,395);
+\draw[dashed] (8.45,401)--(10,401)--(10,395);
+\fill (9,411) circle (2pt) node[above right,font=\small]{九笔优先};
+\fill (10,401) circle (2pt) node[above right,font=\small]{本金优先};
+\end{tikzpicture}
+\caption{两种有效取舍是两个离散点，图中不以连线表示中间方案。}
+\label{int:pareto-figure}
+\end{figure}
+
+\chapter{连续整百数列、最小尾款与断点}\label{seq:chapter}
+
+\section{前八笔连续，最后一笔补差}
+\begin{theorem}[九笔方案的最小尾款]\label{seq:tail}
+九笔有效付款中，把最后一笔称为尾款。无论前八笔是否预先要求连续，尾款均至少为 $3700$ 元。这个下界可以在本金 $41100$ 元、两次柜台回收的条件下达到，同时使前八笔每次减少 $100$ 元。
+\end{theorem}
+\begin{proof}
+前八笔为来自 $1,\ldots,99$ 的八个不同整数，其整数总和由引理\ref{int:maxsum}至多为
+\[
+H_{99}(8)=99+98+\cdots+92=764.
+\]
+设尾款的百元整数为 $t$。全部九笔总和至少为 $801$，故
+\[
+t\ge801-764=37.
+\]
+选择前八笔为 $99,98,97,96,95,94,93,92$，最后选择 $37$。前八笔连续递减，$37$ 不属于 $92,\ldots,99$，所以九笔互异；每笔正且不超过 $99$。总和为 $764+37=801$。在第四笔后回收，第一轮和为 $390$，第二轮和为 $95+94+93+92+37=411$。由命题\ref{model:two-loads}，本金 $41100$ 元足以执行并最终全部收回。因此尾款下界和本金下界同时达到。
+\end{proof}
+
+\begin{corollary}[最小尾款确定金额集合]\label{seq:tail-unique}
+九笔方案若尾款恰为 $3700$ 元，则前八笔的金额集合必须是
+\[
+\{9200,9300,\ldots,9900\}\quad(\text{元}),
+\]
+累计必须恰为 $80100$ 元。
+\end{corollary}
+\begin{proof}
+尾款为 $37$ 时，前八笔总和至少为 $801-37=764$，又由引理\ref{int:maxsum}不超过 $764$，因此只能等于 $764$。该引理的等号唯一性将前八笔集合确定为 $92,93,\ldots,99$。再加上 $37$，总和为 $801$。
+\end{proof}
+
+\begin{example}[最后一笔 $100$ 元为什么不足]
+若尾款为 $100$ 元，即整数值 $1$，前八笔即使全部取到最大组合，也只能得到
+\[
+100\bigl(H_{99}(8)+1\bigr)=100(764+1)=76500\text{ 元}.
+\]
+它小于 $80000$ 元，故不能达标。若改为九个连续金额 $8500,\ldots,9300$ 后再付 $100$ 元，付款将变为十笔，而且前九笔已累计 $80100$ 元；此时最后的 $100$ 元不承担跨过门槛的补差作用。本文选定九笔优先，因此采用定理\ref{seq:tail}的最小尾款。
+\end{example}
+
+\section{为什么采用递减次序，并在第四笔后回收}
+金额集合决定可以选哪些金额，执行顺序则决定第一次回收之前累积了多少付款。固定一列正金额后，回收位置是一个独立的离散变量。
+
+\begin{proposition}[固定次序的最佳切点]\label{seq:cut}
+设按百元单位给定正金额序列 $x_1,\ldots,x_n$，记总和为 $s$，前缀和为 $P_k=\sum_{i=1}^{k}x_i$。在第 $k$ 笔后回收时，最少本金为
+\begin{equation}\label{seq:cut-formula}
+100\max\{P_k,s-P_k\}
+=100\left(\frac{s}{2}+\left|P_k-\frac{s}{2}\right|\right).
+\end{equation}
+因而在 $1\le k\le n-1$ 中，应选择与 $s/2$ 距离最小的前缀和。
+\end{proposition}
+\begin{proof}
+两轮总和分别为 $100P_k$ 和 $100(s-P_k)$，故第一个等号由命题\ref{model:two-loads}给出。若 $P_k\ge s/2$，则较大者为 $P_k$，右端括号为 $s/2+(P_k-s/2)=P_k$。若 $P_k<s/2$，较大者为 $s-P_k$，右端括号为 $s/2+(s/2-P_k)=s-P_k$。两种情形都得到式\eqref{seq:cut-formula}。其中 $s/2$ 与 $k$ 无关，所以比较本金等价于比较绝对值项。
+\end{proof}
+
+\begin{example}[连续八笔的方向会改变本金]
+固定最小尾款 $37$，比较下列两种次序：
+\[
+\begin{split}
+\text{递减：}&\quad99,98,97,96,95,94,93,92,37;\\
+\text{递增：}&\quad92,93,94,95,96,97,98,99,37.
+\end{split}
+\]
+两者总和均为 $801$，但前缀和不同。表\ref{seq:cut-table}列出全部八个合法切点，故没有遗漏其他回收位置。
+\begin{table}[htbp]
+\centering
+\caption{固定次序的全部切点比较（金额单位：百元）}\label{seq:cut-table}
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+切点 $k$ & 递减前缀 & 递减所需本金 & 递增前缀 & 递增所需本金\\
+\midrule
+1 & 99 & 702 & 92 & 709\\
+2 & 197 & 604 & 185 & 616\\
+3 & 294 & 507 & 279 & 522\\
+4 & 390 & 411 & 374 & 427\\
+5 & 485 & 485 & 470 & 470\\
+6 & 579 & 579 & 567 & 567\\
+7 & 672 & 672 & 665 & 665\\
+8 & 764 & 764 & 764 & 764\\
+\bottomrule
+\end{tabular}
+\end{table}
+递减次序的最小值是 $411$，唯一出现在 $k=4$；递增次序的最小值是 $427$，也出现在 $k=4$。所以要求前八笔按增加 $100$ 元的方向执行时，本金增加为 $42700$ 元；允许递减方向时，本金为 $41100$ 元。这一区别来自回收切点之前的负载，而不是来自金额总和。
+\end{example}
+
+\section{九笔全部连续的额外成本}
+\begin{proposition}[全部九笔连续]\label{seq:all-contiguous}
+若要求九个金额组成一段相邻差为 $100$ 元的连续整百数列，则两轮模型中的最少本金为 $43500$ 元。
+\end{proposition}
+\begin{proof}
+把九个整数写成 $a,a+1,\ldots,a+8$。总和为
+\[
+9a+(0+1+\cdots+8)=9a+36.
+\]
+要求 $9a+36\ge801$，所以 $9a\ge765$，即 $a\ge85$。九笔分成两轮，至少有一轮不少于五笔。该轮总和至少为全体五个最小金额之和，因而至少为
+\[
+a+(a+1)+(a+2)+(a+3)+(a+4)=5a+10\ge435.
+\]
+所以本金至少 $43500$ 元。
+
+取 $a=85$，将 $85,86,87,88,89$ 分为第一轮，和为 $435$；将 $90,91,92,93$ 分为第二轮，和为 $366$。九个金额均小于 $100$，总和为 $801$，本金 $43500$ 元由命题\ref{model:two-loads}足够。因此下界达到。
+\end{proof}
+
+\begin{proposition}[每轮内部连续]\label{seq:each-contiguous}
+若保持九笔，但只要求每一轮的金额各自组成一段连续整百数列，两轮之间可以有间隔，则最少本金为 $41500$ 元。
+\end{proposition}
+\begin{proof}
+若笔数较少的一轮至多三笔，其整数和至多 $H_{99}(3)=294$，另一轮至少需要 $801-294=507$，本金至少为 $50700$ 元。下文将构造本金 $41500$ 元的方案，因此能改善该构造的方案必须分为四笔与五笔。
+
+四笔那轮最多为 $390$，所以五笔那轮至少为 $411$。五个连续整数若从 $a$ 开始，总和为
+\[
+a+(a+1)+(a+2)+(a+3)+(a+4)=5a+10=5(a+2),
+\]
+它必须是 $5$ 的整数倍。大于或等于 $411$ 的最小这种整数是 $415$，因此本金至少为 $41500$ 元。
+
+取四笔 $95,96,97,98$，合计 $386$；取五笔 $81,82,83,84,85$，合计 $415$。两段互不相交，全部金额合法，总和 $386+415=801$，本金为 $41500$ 元。该构造达到所证本金下界，并且累计也恰好达到最小允许整数总额。
+\end{proof}
+
+\section{断点位置数与缺数个数}
+\begin{definition}[两种连续程度]\label{seq:gaps-def}
+把九个百元整数递增排列为 $y_1<\cdots<y_9$。定义
+\[
+G=\#\{i\in\{1,\ldots,8\}:y_{i+1}-y_i>1\},
+\]
+称为断点位置数；定义
+\[
+M=(y_9-y_1+1)-9
+=\sum_{i=1}^{8}(y_{i+1}-y_i-1),
+\]
+称为区间内缺数个数。$G$ 统计跳跃发生了几次，$M$ 统计总共漏掉多少个整百金额。
+\end{definition}
+
+\begin{theorem}[最低本金下的最少缺数]\label{seq:missing}
+在九笔、本金 $41100$ 元的最优方案中，缺数个数最少为 $11$，对应的金额集合唯一，为
+\[
+80,81,82,83,85,96,97,98,99
+\]
+乘以 $100$ 元。它有两处断点。
+\end{theorem}
+\begin{proof}
+由定理\ref{int:capital}，最大四个整数被迫为 $96,97,98,99$，其余五个整数总和为 $411$。设这五个整数中的最小值为 $m$。它们递增排列后分别至少为 $m,m+1,m+2,m+3,m+4$，所以
+\[
+411\ge5m+10,
+\qquad m\le\left\lfloor\frac{401}{5}\right\rfloor=80.
+\]
+全体最大值为 $99$，因此
+\[
+M=99-m+1-9=91-m\ge11.
+\]
+当 $m=80$ 时，五个最小允许项 $80,81,82,83,84$ 的总和为 $410$。要把总和增加为 $411$，只能把各项的非负增量之和取为 $1$。若增加的不是最后一项，则它会与后一项相等；所以唯一可行结果为 $80,81,82,83,85$。加上固定的四个最大值，得到题示集合，它确实缺少 $84$ 与 $86,87,\ldots,95$，共 $1+10=11$ 个整数。断点分别在 $83$ 到 $85$、$85$ 到 $96$ 之间。
+\end{proof}
+
+\begin{theorem}[最低本金下的最少断点及完整分类]\label{seq:one-gap}
+在九笔、本金 $41100$ 元的最优方案中，最少断点位置数为一。恰有一处断点的金额集合，以百元为单位，恰好是
+\[
+\begin{split}
+&\{73,74,75,94,95,96,97,98,99\},\\
+&\{64,65,93,94,95,96,97,98,99\},\\
+&\{37,92,93,94,95,96,97,98,99\}.
+\end{split}
+\]
+三者的缺数个数分别为 $18,27,54$。最后一个集合就是最小尾款方案的金额集合。
+\end{theorem}
+\begin{proof}
+若没有断点，则全部九笔连续，与命题\ref{seq:all-contiguous}要求本金至少 $43500$ 元相矛盾，所以 $G\ge1$。
+
+若恰有一个断点，全部整数分为低、高两段连续整数。定理\ref{int:capital}要求高段包含 $96,97,98,99$，且全体最大值为 $99$。设高段长 $L$，则 $4\le L\le8$，高段为 $100-L,\ldots,99$；低段长 $9-L$，设起点为 $a$。总和由式\eqref{int:equality-loads}固定为 $801$，故
+\[
+(9-L)a+\frac{(9-L)(8-L)}2+\frac{L(199-L)}2=801.
+\]
+合并常数项后，
+\[
+(9-L)a+91L+36=801,
+\qquad a=\frac{765-91L}{9-L}.
+\]
+只有五个 $L$ 需要检查：
+\begin{center}
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+$L$ & 低段长度 & 起点 $a$ & 结论\\
+\midrule
+4 & 5 & $80.2$ & 不是整数\\
+5 & 4 & $77.5$ & 不是整数\\
+6 & 3 & $73$ & 两段为 $73$ 至 $75$、$94$ 至 $99$\\
+7 & 2 & $64$ & 两段为 $64$ 至 $65$、$93$ 至 $99$\\
+8 & 1 & $37$ & 两段为 $37$、$92$ 至 $99$\\
+\bottomrule
+\end{tabular}
+\end{center}
+后三种低段均为正，且与高段之间有间隔。移去 $96,97,98,99$ 后，其余五个数分别为 $73,74,75,94,95$，$64,65,93,94,95$，$37,92,93,94,95$，各自总和均为 $411$，因此确为本金最优方案。缺数由 $M=91-a$ 分别算得 $18,27,54$。这也给出了达到 $G=1$ 的构造。
+\end{proof}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=.18cm,y=.95cm]
+\foreach \y in {0,1.35,2.7}{\draw[gray] (30,\y)--(100,\y);}
+\foreach \x in {30,40,50,60,70,80,90,100}{
+ \draw (\x,-.06)--(\x,.06);
+ \node[below,font=\footnotesize] at (\x,-.06){$\x$};
+}
+\node[above right,font=\small] at (30,2.72){缺数最少：$G=2,\ M=11$};
+\node[above right,font=\small] at (30,1.37){单断点中跨度最小：$G=1,\ M=18$};
+\node[above right,font=\small] at (30,.02){最小尾款：$G=1,\ M=54$};
+\foreach \x in {80,81,82,83,85,96,97,98,99}{\fill (\x,2.7) circle (1.4pt);}
+\foreach \x in {73,74,75,94,95,96,97,98,99}{\fill (\x,1.35) circle (1.4pt);}
+\foreach \x in {37,92,93,94,95,96,97,98,99}{\fill (\x,0) circle (1.4pt);}
+\node[below,font=\small] at (65,-.45){横坐标单位：百元；黑点表示选中的金额};
+\end{tikzpicture}
+\caption{三个优化指标选择不同集合；三行的本金均为 $41100$ 元。}
+\label{seq:gaps-picture}
+\end{figure}
+
+\section{本书最终采用哪一项附加要求}
+\begin{table}[htbp]
+\centering
+\caption{附加金额结构与最少本金的关系（均为九笔）}\label{seq:variants}
+\begin{tabularx}{\textwidth}{@{}Xrrr@{}}
+\toprule
+附加结构 & 本金（元） & 有效累计（元） & 说明\\
+\midrule
+互异整百，不要求连续 & 41100 & 80100 & 核心最优值\\
+每轮内部连续 & 41500 & 80100 & 两段之间可间隔\\
+全部九笔连续 & 43500 & 80100 & 从 8500 至 9300\\
+前八笔连续递减，尾款最少 & 41100 & 80100 & 最后一笔 3700\\
+\bottomrule
+\end{tabularx}
+\end{table}
+用户最后确认的是表\ref{seq:variants}最后一行。这个选择同时保留最少笔数和最低本金，并把前八笔排成每次减少 $100$ 元的序列。缺数个数与尾款大小是不同指标：该方案的尾款已经最低，但其区间内缺数并不最少。将这些目标分开定义，可以避免把一种意义的最优性推广到另一种意义。
+
+\chapter{资金流的线性代数表述}\label{la:chapter}
+
+本章把付款、回收与账户余额写成矩阵关系。这样可以区分三个量：一笔付款在两个账户之间搬动的资金、累计计入任务的金额，以及为了保证全过程余额非负而必须准备的初始本金。以下金额均以百元为单位；实际本金为 $B$ 元时，记 $b=B/100$。记付款账户为 $P$，接收端为 $Q$，初始时本任务的全部资金位于 $P$。
+
+\section{账户图、关联矩阵与守恒量}
+
+\begin{definition}[资金事件与账户状态]\label{la:state-def}
+设第 $\ell$ 个事件的付款量为 $u_\ell\ge0$，回收量为 $v_\ell\ge0$。一次事件只办理一个方向的资金移动，因此 $u_\ell v_\ell=0$。用列向量
+\[
+p_\ell=\begin{pmatrix}p_{P,\ell}\\p_{Q,\ell}\end{pmatrix}
+\]
+表示事件结束后的两个账户余额，并令
+\[
+f_\ell=\begin{pmatrix}u_\ell\\v_\ell\end{pmatrix},
+\qquad
+D=\begin{pmatrix}-1&1\\1&-1\end{pmatrix}.
+\]
+付款从 $P$ 流向 $Q$，回收从 $Q$ 流向 $P$，所以状态递推为
+\begin{equation}\label{la:incidence-update}
+p_\ell=p_{\ell-1}+Df_\ell,
+\qquad p_0=\begin{pmatrix}b\\0\end{pmatrix}.
+\end{equation}
+\end{definition}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth, node distance=5.8cm,
+  account/.style={draw,rounded corners=1pt,minimum width=3.3cm,minimum height=1.2cm,align=center}]
+  \node[account] (A) {付款账户 $P$\\余额 $p_P$};
+  \node[account,right=of A] (C) {接收端 $Q$\\余额 $p_Q$};
+  \draw[->,thick,bend left=18] (A) to node[above] {付款 $u$：计入任务} (C);
+  \draw[->,thick,bend left=18] (C) to node[below] {回收 $v$：不计入任务} (A);
+\end{tikzpicture}
+\caption{账户图。关联矩阵 $D$ 的两列分别记录付款和回收对余额的改变；回收不增加任务累计金额。}
+\label{la:account-graph}
+\end{figure}
+
+\begin{proposition}[线性守恒量]\label{la:conservation}
+对任意事件序列，只要状态按式\eqref{la:incidence-update}递推，就有
+\begin{equation}\label{la:total-cash}
+p_{P,\ell}+p_{Q,\ell}=b.
+\end{equation}
+此外，对所有资金事件都保持不变的账户余额线性组合，恰好是账户余额之和的常数倍。
+\end{proposition}
+
+\begin{proof}
+令 $\boldsymbol{1}=(1,1)^{\mathsf T}$。直接计算得
+\[
+\boldsymbol{1}^{\mathsf T}D=(0,0).
+\]
+将式\eqref{la:incidence-update}左乘 $\boldsymbol{1}^{\mathsf T}$，得到
+\[
+\boldsymbol{1}^{\mathsf T}p_\ell
+=\boldsymbol{1}^{\mathsf T}p_{\ell-1}.
+\]
+从 $\ell=1$ 逐次代入至给定的 $\ell$，右端等于 $\boldsymbol{1}^{\mathsf T}p_0=b$，这就证明了式\eqref{la:total-cash}。
+
+再设 $\alpha p_P+\beta p_Q$ 对任何付款和回收都不变。分别令一个事件只有付款、只有回收，其改变量必须为零，因而
+\[
+(\alpha,\beta)D=(-\alpha+\beta,\alpha-\beta)=(0,0).
+\]
+这两个等式等价于 $\alpha=\beta$。因此该线性组合为 $\alpha(p_P+p_Q)$。反过来，任何这样的常数倍都由已证守恒式保持不变。
+\end{proof}
+
+\begin{remark}\label{la:cash-vs-task}
+资金守恒并不使累计任务金额保持不变。若把任务累计金额记为 $s_\ell$，扩充状态后有
+\[
+\begin{pmatrix}p_{P,\ell}\\p_{Q,\ell}\\s_\ell\end{pmatrix}
+=
+\begin{pmatrix}p_{P,\ell-1}\\p_{Q,\ell-1}\\s_{\ell-1}\end{pmatrix}
++
+\begin{pmatrix}-1&1\\1&-1\\1&0\end{pmatrix}
+\begin{pmatrix}u_\ell\\v_\ell\end{pmatrix}.
+\]
+例如先付款 $a$、再回收 $a$，两个账户的余额均恢复原值，但任务累计金额增加 $a$。金额是否已经使用过，也不能从这三个数单独恢复；互异条件还需要记录已用金额集合。
+\end{remark}
+
+\section{前缀和矩阵与最低初始本金}
+
+设共有 $m\ge1$ 个资金事件。记
+\[
+w_\ell=u_\ell-v_\ell,
+\qquad
+d_0=0,\qquad d_\ell=\sum_{j=1}^{\ell}w_j.
+\]
+$d_\ell$ 表示截至第 $\ell$ 个事件结束时，累计付款扣除累计回收后，仍停留在接收端的资金。
+定义下三角矩阵
+\[
+L_m=
+\begin{pmatrix}
+1&0&0&\cdots&0\\
+1&1&0&\cdots&0\\
+1&1&1&\cdots&0\\
+\vdots&\vdots&\vdots&\ddots&\vdots\\
+1&1&1&\cdots&1
+\end{pmatrix}.
+\]
+若 $w=(w_1,\ldots,w_m)^{\mathsf T}$、$d=(d_1,\ldots,d_m)^{\mathsf T}$，则
+\begin{equation}\label{la:prefix-matrix}
+d=L_mw.
+\end{equation}
+矩阵的第 $\ell$ 行选取 $w_1,\ldots,w_\ell$，所以每一行恰好给出相应的前缀和。
+
+\begin{theorem}[固定事件序列的现金余额可行性]\label{la:prefix-capital}
+接收端初始余额为零时，一个给定的付款与回收事件序列在现金余额意义下可行，即两个账户余额始终非负，当且仅当
+\begin{equation}\label{la:prefix-feasible}
+0\le d_\ell\le b\qquad(0\le\ell\le m).
+\end{equation}
+若某个 $d_\ell<0$，则无论初始本金多大，这个既定事件序列都不能保持余额非负。若所有 $d_\ell\ge0$，使现金余额可行的最少初始本金为
+\begin{equation}\label{la:prefix-max}
+b_{\min}=\max_{0\le\ell\le m}d_\ell.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+把式\eqref{la:incidence-update}从第一个事件累加到第 $\ell$ 个事件，得到
+\[
+p_{P,\ell}=b-\sum_{j=1}^{\ell}(u_j-v_j)=b-d_\ell,
+\qquad
+p_{Q,\ell}=\sum_{j=1}^{\ell}(u_j-v_j)=d_\ell.
+\]
+两个账户余额同时非负，等价于 $b-d_\ell\ge0$ 与 $d_\ell\ge0$，即式\eqref{la:prefix-feasible}。
+
+若某个 $d_\ell<0$，该时刻的接收端余额为负。这说明此前累计回收已经超过累计付款；增加付款账户的初始余额不会改变这个给定的 $d_\ell$，所以不能修复这一问题。
+
+现在假设全部 $d_\ell\ge0$。任何保持余额非负的本金都必须不小于每一个 $d_\ell$，故不小于它们的最大值。反过来，取 $b=\max d_\ell$，就同时满足每个 $d_\ell\le b$ 和每个 $d_\ell\ge0$，因此整个事件序列的两个账户余额都不为负。这证明下界能够达到。
+\end{proof}
+
+该定理同时检查两个账户的余额。仅检查付款账户余额非负，会遗漏“接收端尚未收到这笔钱却先办理回收”的不可能安排。现金余额可行性只是任务合法性的一部分；完整任务还须检查付款金额范围、互异条件、两次回收均为全额回收以及最终 $d_m=0$。只付款而没有最终回收的事件序列可能满足前缀余额条件，却不是已经完成本任务的方案。
+
+\begin{example}[九笔方案的逐事件余额]\label{la:cash-example}
+取 $b=411$，按
+\[
+99,98,97,96\ ;\ \text{回收 }390\ ;\ 95,94,93,92,37\ ;\ \text{回收 }411
+\]
+的顺序操作。九笔付款加上两次回收，共有十一个资金事件。表\ref{la:cash-table}同时记录 $d_\ell$、付款账户余额以及任务累计金额。所有金额单位均为百元。
+
+\begin{table}[htbp]
+\centering
+\caption{完整操作中的账户余额与任务累计金额}\label{la:cash-table}
+\begin{tabular}{crrrr}
+\toprule
+事件 & 本次操作 & 接收端 $d_\ell$ & 付款账户 $411-d_\ell$ & 任务累计 $s_\ell$\\
+\midrule
+0 & 初始 & 0 & 411 & 0\\
+1 & 付款 $99$ & 99 & 312 & 99\\
+2 & 付款 $98$ & 197 & 214 & 197\\
+3 & 付款 $97$ & 294 & 117 & 294\\
+4 & 付款 $96$ & 390 & 21 & 390\\
+5 & 回收 $390$ & 0 & 411 & 390\\
+6 & 付款 $95$ & 95 & 316 & 485\\
+7 & 付款 $94$ & 189 & 222 & 579\\
+8 & 付款 $93$ & 282 & 129 & 672\\
+9 & 付款 $92$ & 374 & 37 & 764\\
+10 & 付款 $37$ & 411 & 0 & 801\\
+11 & 回收 $411$ & 0 & 411 & 801\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+表中所有 $d_\ell$ 均在 $[0,411]$ 内，而且第十个事件达到 $d_{10}=411$。由定理\ref{la:prefix-capital}，此执行顺序所需的最少本金就是 $411$，即 $41100$ 元。第十一个事件使两个账户恢复初始资金分布，而任务累计金额仍为 $801$，即 $80100$ 元。
+\end{example}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=1.05cm,y=0.0102cm,>=Stealth]
+  \draw[->] (-0.2,0)--(11.8,0) node[right] {事件 $\ell$};
+  \draw[->] (0,-8)--(0,455) node[above] {$d_\ell$};
+  \foreach \x in {0,1,...,11} {
+    \draw (\x,0)--(\x,-5);
+    \node[below,font=\small] at (\x,-6) {$\x$};
+  }
+  \foreach \y in {200,411} {
+    \draw (0,\y)--(-0.06,\y);
+    \node[left,font=\small] at (-0.06,\y) {$\y$};
+  }
+  \draw[dashed] (0,411)--(11.2,411) node[right,font=\small] {$b=411$};
+  \draw[thick] plot coordinates {(0,0)(1,99)(2,197)(3,294)(4,390)(5,0)(6,95)(7,189)(8,282)(9,374)(10,411)(11,0)};
+  \foreach \x/\y in {0/0,1/99,2/197,3/294,4/390,5/0,6/95,7/189,8/282,9/374,10/411,11/0} {
+    \fill (\x,\y) circle[radius=1.25pt];
+  }
+\end{tikzpicture}
+\caption{接收端资金占用的离散状态。第 $5$、$11$ 个事件分别是中途回收与最终回收。折线只连接事件结束时的状态；横向虚线是可用本金上限，纵坐标单位为百元。}
+\label{la:prefix-plot}
+\end{figure}
+
+\section{两轮付款的分组矩阵}
+
+给定 $n$ 个付款金额，组成列向量 $x=(x_1,\ldots,x_n)^{\mathsf T}$。将下标集合分成两个非空集合 $I_1,I_2$，定义
+\[
+R_{ri}=\begin{cases}1,&i\in I_r,\\0,&i\notin I_r,\end{cases}
+\qquad r=1,2.
+\]
+$R$ 的每一列恰有一个 $1$。两轮总额组成的向量为
+\begin{equation}\label{la:load-operator}
+s=Rx=\begin{pmatrix}s_1\\s_2\end{pmatrix},
+\qquad s_r=\sum_{i\in I_r}x_i.
+\end{equation}
+
+\begin{proposition}[分组负载与本金]\label{la:round-max}
+若每轮内只有正额付款，每轮结束后全额回收该轮款项，则
+\begin{equation}\label{la:round-norm}
+b_{\min}=\max\{s_1,s_2\}=\lVert Rx\rVert_\infty.
+\end{equation}
+在固定分组内，改变各笔付款的先后顺序不会改变最少本金。
+\end{proposition}
+
+\begin{proof}
+每轮最后一笔付款完成而尚未回收时，接收端余额恰好等于该轮总额 $s_r$。定理\ref{la:prefix-capital}因此给出 $b\ge s_1$ 和 $b\ge s_2$。
+
+反过来，取 $b=\max\{s_1,s_2\}$。每轮的所有付款均为正数，所以该轮任一付款前缀之和不超过该轮总额 $s_r$，也就不超过 $b$。该轮全额回收后，接收端余额重新为零，付款账户重新持有 $b$。依次执行两轮，每个账户余额均非负，最后全部本金回到付款账户。
+
+上述前缀估计只用到付款为正以及整轮总额为 $s_r$，没有使用组内排列顺序。任意重新排列后，每个前缀仍是该组若干正数之和，仍不超过 $s_r$，所以最少本金不变。
+\end{proof}
+
+\begin{proposition}[负载算子的核]\label{la:load-kernel}
+设每轮至少有一笔。则 $R$ 的秩为 $2$，而
+\[
+\ker R=\left\{h\in\mathbb R^n:
+\sum_{i\in I_1}h_i=0,\quad \sum_{i\in I_2}h_i=0\right\}
+\]
+是维数为 $n-2$ 的子空间。
+\end{proposition}
+
+\begin{proof}
+若 $\alpha R_{1\cdot}+\beta R_{2\cdot}=0$，取 $I_1$ 中的任一下标，该列给出 $\alpha=0$；取 $I_2$ 中的任一下标，该列给出 $\beta=0$。两行线性无关，故秩为 $2$。
+
+从矩阵乘法的定义，$Rh=0$ 等价于两个组内坐标和均为零。为明确给出一组基，在 $I_r$ 中各选一个基准下标 $p_r$。向量
+\[
+e_i-e_{p_r}\qquad(r=1,2,\ i\in I_r\setminus\{p_r\})
+\]
+都属于核。若这些向量的线性组合为零，观察每个非基准下标 $i$ 的坐标，其系数只能为零，故它们线性无关。对于任意 $h\in\ker R$，组内零和条件给出
+\[
+h_{p_r}=-\sum_{i\in I_r\setminus\{p_r\}}h_i,
+\]
+从而
+\[
+h=\sum_{r=1}^2\ \sum_{i\in I_r\setminus\{p_r\}}h_i(e_i-e_{p_r}).
+\]
+这些向量张成核，数量为 $(|I_1|-1)+(|I_2|-1)=n-2$，所以核的维数为 $n-2$。
+\end{proof}
+
+核中的方向保持两轮总额，但未必保持正数、整百、互异以及单笔上限。只有额外检查这些条件后，线性空间中的改变才对应可执行的新方案。
+
+\section{固定付款顺序时，回收位置怎样影响本金}
+
+\begin{proposition}[切点公式]\label{la:cut-formula}
+固定正额付款顺序 $x_1,\ldots,x_n$，总额为 $s$，并在第 $c$ 笔后进行唯一一次中途全额回收，其中 $1\le c<n$。记 $P_c=\sum_{i=1}^c x_i$。所需本金为
+\begin{equation}\label{la:cut-distance}
+b(c)=\max\{P_c,s-P_c\}
+=\frac{s}{2}+\left|P_c-\frac{s}{2}\right|.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+切点两侧的轮次总额分别为 $P_c$ 与 $s-P_c$，由命题\ref{la:round-max}得到第一个等式。若 $P_c\ge s/2$，右侧第二个表达式为 $s/2+(P_c-s/2)=P_c$；若 $P_c\le s/2$，该表达式为 $s/2+(s/2-P_c)=s-P_c$。两种情况分别等于两轮总额中的较大者，故第二个等式成立。
+\end{proof}
+
+\begin{example}[确认方案的切点]\label{la:cut-example}
+对 $99,98,97,96,95,94,93,92,37$，总额为 $801$，前八个前缀和依次是
+\[
+99,\ 197,\ 294,\ 390,\ 485,\ 579,\ 672,\ 764.
+\]
+目标中点为 $801/2=400.5$。前四个前缀均小于中点，其中最大的 $390$ 距离中点 $10.5$；从第五个前缀开始均大于中点，其中最小的 $485$ 距离中点 $84.5$。后续前缀继续增加，距离也继续增加。因此最近的可选前缀是 $P_4=390$，对应
+\[
+b(4)=400.5+10.5=411.
+\]
+若改在第五笔后回收，则所需本金为 $\max\{485,316\}=485$，即 $48500$ 元。金额集合没有改变，付款总额没有改变，柜台回收次数也没有改变；本金增加来自回收位置的改变。
+\end{example}
+
+本章的矩阵模型把资金守恒、余额非负与回收位置分开表达。它计算一个给定安排所需的本金；互异金额的选择以及九笔是否最少，仍由离散条件决定。下一章将说明负载最大值的范数结构怎样提供下界证书，以及为什么连续松弛会丢失部分离散约束。
+
+\chapter{数学分析、有限维泛函分析与凸优化}\label{fa:chapter}
+
+两轮本金等于两轮负载的最大值。本章先研究这个函数的连续性、导数、凸性与扰动界，再进入范数、线性泛函与凸优化的语言。本章只使用有限维空间；各项具体下界均在文中证明。范数对偶、支撑函数和优化对偶的一般背景可参见文献\cite{boyd}。这些工具的作用是给出可逐项检验的不等式证书，并说明连续模型与整数执行方案之间的差别。
+
+\section{数学分析：分段线性函数与扰动稳定性}\label{fa:analysis-section}
+
+固定付款总额 $s>0$，暂把第一轮金额视为实变量 $t\in[0,s]$，定义
+\[
+f_s(t)=\max\{t,s-t\}=\frac{s}{2}+\left|t-\frac{s}{2}\right|.
+\]
+第二个等式已在切点公式\eqref{seq:cut-formula}中证明。这里允许 $t$ 连续变化，是为了分析预算函数；原任务中的可选切点仍须来自实际付款序列。
+
+\begin{proposition}[连续预算函数的性质]\label{fa:piecewise-analysis}
+函数 $f_s$ 连续、凸，并满足
+\begin{equation}\label{fa:cut-lipschitz}
+|f_s(t)-f_s(u)|\le|t-u|\qquad(t,u\in[0,s]).
+\end{equation}
+它在 $(0,s/2)$ 上的导数为 $-1$，在 $(s/2,s)$ 上的导数为 $1$；在 $s/2$ 处左右导数分别为 $-1,1$。其唯一最小点是 $t=s/2$，最小值为 $s/2$。
+\end{proposition}
+\begin{proof}
+记 $m=s/2$。绝对值三角不等式分别给出
+\[
+|t-m|\le|u-m|+|t-u|,
+\qquad
+|u-m|\le|t-m|+|t-u|.
+\]
+移项后合并两式，得到 $\bigl||t-m|-|u-m|\bigr|\le|t-u|$，即式\eqref{fa:cut-lipschitz}。给定 $\varepsilon>0$，只要 $|t-u|<\varepsilon$，就有 $|f_s(t)-f_s(u)|<\varepsilon$，故函数连续。
+
+对 $0\le\theta\le1$，再次使用绝对值三角不等式，
+\begin{align*}
+f_s(\theta t+(1-\theta)u)
+&=m+|\theta(t-m)+(1-\theta)(u-m)|\\
+&\le m+\theta|t-m|+(1-\theta)|u-m|\\
+&=\theta f_s(t)+(1-\theta)f_s(u).
+\end{align*}
+这就是凸性的定义。
+
+当 $t<m$ 时，$f_s(t)=s-t$；当 $t>m$ 时，$f_s(t)=t$，两个开区间内的导数因而分别为 $-1,1$。在中点，对充分小的非零 $h$，差商为
+\[
+\frac{f_s(m+h)-f_s(m)}{h}=\frac{|h|}{h}
+=\begin{cases}-1,&h<0,\\1,&h>0.\end{cases}
+\]
+所以左右导数不同，中点不可微。最后，$f_s(t)-m=|t-m|\ge0$，且等号恰在 $t=m$ 时成立，这证明了最小值与最小点的唯一性。
+\end{proof}
+
+对固定付款序列，合法切点形成有限集合
+\[
+\mathcal T(x)=\{P_1,\ldots,P_{n-1}\},
+\qquad P_k=\sum_{i=1}^k x_i.
+\]
+由式\eqref{seq:cut-formula}，最低本金的百元数为
+\begin{equation}\label{fa:discrete-cut-penalty}
+\min_{t\in\mathcal T(x)}f_s(t)
+=\frac{s}{2}+\min_{t\in\mathcal T(x)}\left|t-\frac{s}{2}\right|.
+\end{equation}
+对确认的递减序列，表\ref{seq:cut-table}给出离 $400.5$ 最近的前缀为 $390$，距离为 $10.5$。所以连续变量的最低值是 $400.5$，而实际切点给出 $400.5+10.5=411$。这 $10.5$ 个百元，即 $1050$ 元，是可选切点不能落在中点造成的额外本金，不是交易费用。这里的连续最小点并未自动给出合法的整数分组。
+
+\begin{proposition}[固定分组的金额扰动界]\label{fa:perturbation}
+固定两个非空分组 $I_1,I_2$，令 $\widetilde x_i=x_i+\varepsilon_i$，并假设 $x_i,\widetilde x_i$ 都为正数。各轮结束后全额回收时，记相应最少本金的百元数为
+\[
+b(x)=\max_{r=1,2}\sum_{i\in I_r}x_i,
+\qquad
+b(\widetilde x)=\max_{r=1,2}\sum_{i\in I_r}\widetilde x_i.
+\]
+则
+\begin{equation}\label{fa:perturbation-bound}
+|b(\widetilde x)-b(x)|
+\le\max_{r=1,2}\left|\sum_{i\in I_r}\varepsilon_i\right|
+\le\max_{r=1,2}\sum_{i\in I_r}|\varepsilon_i|.
+\end{equation}
+\end{proposition}
+\begin{proof}
+记 $s_r=\sum_{i\in I_r}x_i$、$E_r=\sum_{i\in I_r}\varepsilon_i$，并令 $\eta=\max\{|E_1|,|E_2|\}$。对每个 $r$，
+\[
+s_r+E_r\le b(x)+\eta,
+\qquad
+s_r=(s_r+E_r)-E_r\le b(\widetilde x)+\eta.
+\]
+分别对 $r$ 取最大值，得到 $b(\widetilde x)\le b(x)+\eta$ 和 $b(x)\le b(\widetilde x)+\eta$，合并后给出第一个不等式。每个组内又有 $|E_r|\le\sum_{i\in I_r}|\varepsilon_i|$，对两组取最大值得到第二个不等式。
+\end{proof}
+
+例如，在本题的四笔与五笔分组中，若每笔的改变量均满足 $|\varepsilon_i|\le\varepsilon$，则本金数值的改变量不超过 $5\varepsilon$ 个百元单位。这个估计只控制固定分组的负载函数：整百、互异、单笔上限和累计达标还须分别检查。将金额 $99$ 改成 $98$ 虽然只是一个单位的扰动，却会与原有的 $98$ 重复；函数值的稳定性并不保证离散可行性保持。
+
+\section{最大值范数及其对偶线性泛函}
+
+对 $z=(z_1,z_2)\in\mathbb R^2$，定义
+\[
+\lVert z\rVert_\infty=\max\{|z_1|,|z_2|\},
+\qquad
+\lVert z\rVert_1=|z_1|+|z_2|.
+\]
+这里的下标 $\infty$ 表示取坐标绝对值的最大值，并不表示空间具有无限多个坐标。
+
+\begin{proposition}[有限维完备性]\label{fa:banach}
+$\lVert\cdot\rVert_\infty$ 是 $\mathbb R^2$ 上的范数，且 $X=(\mathbb R^2,\lVert\cdot\rVert_\infty)$ 是 Banach 空间，即每个关于此范数的 Cauchy 序列都有属于 $\mathbb R^2$ 的极限。
+\end{proposition}
+
+\begin{proof}
+最大值非负，且最大值为零当且仅当两个坐标都为零。对任意实数 $t$，
+\[
+\max_i|tz_i|=|t|\max_i|z_i|.
+\]
+对任意 $z,w\in\mathbb R^2$，每个坐标满足
+\[
+|z_i+w_i|\le |z_i|+|w_i|
+\le\lVert z\rVert_\infty+\lVert w\rVert_\infty.
+\]
+对两个坐标取最大值，就得到三角不等式。这验证了范数的各项条件。
+
+设 $(z^{(m)})$ 为 Cauchy 序列。因为
+\[
+|z_i^{(m)}-z_i^{(n)}|\le\lVert z^{(m)}-z^{(n)}\rVert_\infty,
+\]
+每个坐标序列都是实数 Cauchy 序列。实数的完备性给出极限 $z_i$，令 $z=(z_1,z_2)$。给定 $\varepsilon>0$，分别存在 $M_1,M_2$，使 $m\ge M_i$ 时 $|z_i^{(m)}-z_i|<\varepsilon$。取 $M=\max\{M_1,M_2\}$，对所有 $m\ge M$ 都有
+\[
+\lVert z^{(m)}-z\rVert_\infty
+=\max_i|z_i^{(m)}-z_i|<\varepsilon.
+\]
+因此该序列在 $X$ 中收敛。
+\end{proof}
+
+\begin{theorem}[对偶范数与最大负载的表示]\label{fa:dual-norm}
+$X$ 上任意线性泛函都唯一写成
+\[
+\ell_y(z)=y_1z_1+y_2z_2,
+\qquad y\in\mathbb R^2,
+\]
+且其算子范数为
+\begin{equation}\label{fa:dual-l1}
+\lVert\ell_y\rVert
+=\sup_{\lVert z\rVert_\infty\le1}|\ell_y(z)|
+=\lVert y\rVert_1.
+\end{equation}
+由此得到
+\begin{equation}\label{fa:dual-representation}
+\lVert z\rVert_\infty
+=\max_{\lVert y\rVert_1\le1}(y_1z_1+y_2z_2).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+记标准基为 $e_1,e_2$。给定线性泛函 $\ell$，令 $y_i=\ell(e_i)$。由 $z=z_1e_1+z_2e_2$ 及线性性，得到 $\ell(z)=y_1z_1+y_2z_2$。分别代入 $e_1,e_2$ 又能恢复 $y_1,y_2$，所以表示唯一。
+
+对任意 $z$，逐项取绝对值得到
+\begin{equation}\label{fa:holder-elementary}
+|\ell_y(z)|
+\le |y_1||z_1|+|y_2||z_2|
+\le(|y_1|+|y_2|)\lVert z\rVert_\infty.
+\end{equation}
+因此这个泛函有界，且算子范数至多为 $\lVert y\rVert_1$。取 $z_i=1$ 当 $y_i>0$，取 $z_i=-1$ 当 $y_i<0$，取 $z_i=0$ 当 $y_i=0$，就有 $\lVert z\rVert_\infty\le1$ 和
+\[
+\ell_y(z)=|y_1|+|y_2|.
+\]
+这给出相反方向的不等式，证明了式\eqref{fa:dual-l1}。
+
+对 $\lVert y\rVert_1\le1$，式\eqref{fa:holder-elementary}给出 $\ell_y(z)\le\lVert z\rVert_\infty$。若 $z=0$，取 $y=0$ 达到等号。若 $z\ne0$，选取满足 $|z_i|=\lVert z\rVert_\infty$ 的坐标 $i$，并取 $y=\operatorname{sgn}(z_i)e_i$。这个 $y$ 的 $1$-范数为 $1$，而 $\ell_y(z)=|z_i|=\lVert z\rVert_\infty$。最大值因而达到，式\eqref{fa:dual-representation}成立。
+\end{proof}
+
+当 $s_1,s_2\ge0$ 为两轮负载时，式\eqref{fa:dual-representation}还可写成
+\begin{equation}\label{fa:positive-dual}
+\max\{s_1,s_2\}
+=\max_{0\le\lambda\le1}\{\lambda s_1+(1-\lambda)s_2\}.
+\end{equation}
+这是因为每个括号内的数都不超过 $\max\{s_1,s_2\}$，而取 $\lambda=1$ 或 $\lambda=0$ 能取得两个端点中的较大者。
+
+\begin{example}[平均下界与单轮下界]\label{fa:dual-example}
+对最优负载 $(390,411)$，取 $\lambda=1/2$ 只得到
+\[
+b\ge\frac{390+411}{2}=400.5.
+\]
+取 $\lambda=0$ 则得到 $b\ge411$，并且可以达到。平均总额只衡量平均资金占用，最大值范数要求每一个轮次都能由同一笔本金独立支付。
+\end{example}
+
+\section{互异金额上界作为凸集的支撑函数}
+
+\begin{definition}[支撑函数与固定基数多面体]\label{fa:support-def}
+对非空集合 $K\subseteq\mathbb R^N$，线性方向 $w$ 上的支撑函数为
+\[
+h_K(w)=\sup_{z\in K}\sum_{j=1}^N w_jz_j.
+\]
+给定整数 $0\le k\le N$，定义
+\[
+\Delta_{N,k}
+=\left\{z\in\mathbb R^N:
+0\le z_j\le1,\quad\sum_{j=1}^N z_j=k\right\}.
+\]
+其中 $0$-$1$ 向量对应从 $1,\ldots,N$ 中选取恰好 $k$ 个不同金额；允许中间小数后，得到它的连续选择模型。
+\end{definition}
+
+\begin{lemma}[固定基数多面体的顶点]\label{fa:hypersimplex}
+$\Delta_{N,k}$ 的顶点恰好是坐标和为 $k$ 的 $0$-$1$ 向量。
+\end{lemma}
+
+\begin{proof}
+先设 $z$ 有非整数坐标。它不能只有一个非整数坐标，因为其余坐标均为整数而全部坐标之和为整数 $k$。因此可找到两个坐标 $0<z_i<1$、$0<z_j<1$。取
+\[
+0<\varepsilon<\min\{z_i,1-z_i,z_j,1-z_j\}.
+\]
+两个向量 $z^+=z+\varepsilon e_i-\varepsilon e_j$ 与 $z^-=z-\varepsilon e_i+\varepsilon e_j$ 仍属于 $\Delta_{N,k}$，彼此不同，并满足 $z=(z^++z^-)/2$。按照顶点不能写成两个不同可行点的严格凸组合的定义，$z$ 不是顶点。
+
+反过来，设 $z$ 为 $0$-$1$ 向量，且 $z=\theta x+(1-\theta)y$，其中 $x,y\in\Delta_{N,k}$、$0<\theta<1$。若 $z_i=0$，由于 $x_i,y_i\ge0$，该坐标的等式迫使 $x_i=y_i=0$。若 $z_i=1$，由于 $x_i,y_i\le1$，该坐标的等式迫使 $x_i=y_i=1$。于是所有坐标上均有 $x_i=y_i=z_i$，所以 $z$ 是顶点。
+\end{proof}
+
+\begin{theorem}[金额和的支撑函数及对偶证书]\label{fa:support-formula}
+令 $w=(1,2,\ldots,N)$。则
+\begin{equation}\label{fa:H-formula}
+h_{\Delta_{N,k}}(w)
+=H_N(k):=kN-\frac{k(k-1)}2.
+\end{equation}
+最大值由选取 $N-k+1,\ldots,N$ 达到。
+\end{theorem}
+
+\begin{proof}
+先取任意实数 $\lambda$。对 $0\le z_j\le1$，有
+\[
+(j-\lambda)z_j\le(j-\lambda)_+,
+\qquad(t)_+:=\max\{t,0\}.
+\]
+当 $j-\lambda\le0$ 时，左端不大于零；当 $j-\lambda>0$ 时，由 $z_j\le1$ 得到左端不大于 $j-\lambda$。把这两个范围合起来，就得到上述逐项不等式。对 $z\in\Delta_{N,k}$ 求和，得
+\begin{equation}\label{fa:dual-certificate}
+\sum_{j=1}^N jz_j
+=\lambda k+\sum_{j=1}^N(j-\lambda)z_j
+\le\lambda k+\sum_{j=1}^N(j-\lambda)_+.
+\end{equation}
+这对每一个可行 $z$ 都成立，所以右端给出支撑函数的上界。
+
+现在取 $\lambda=N-k$。右端变为
+\begin{align*}
+(N-k)k+\sum_{r=1}^k r
+&=k(N-k)+\frac{k(k+1)}2\\
+&=kN-\frac{k(k-1)}2.
+\end{align*}
+取 $z_j=1$ 当 $j\in\{N-k+1,\ldots,N\}$，其余坐标取零，就满足全部约束，并使加权和恰好等于这个上界。$k=0$ 时取全零向量，空和为零；$k=N$ 时取全一向量，所得和为 $N(N+1)/2$。因此所有边界情形也满足式\eqref{fa:H-formula}。
+\end{proof}
+
+式\eqref{fa:dual-certificate}是一份可直接检查的线性优化对偶证书：$\lambda$ 对应固定基数约束，正部项记录各坐标上界能够贡献的补偿。此处不需要先援引一般强对偶定理；上界已经逐项证明，而明确给出的选择又使上界达到。
+
+\begin{example}[四笔金额的证书]\label{fa:four-certificate}
+取 $N=99$、$k=4$，并令 $\lambda=95$。任意连续选择 $z\in\Delta_{99,4}$ 都满足
+\[
+\sum_{j=1}^{99}jz_j
+\le95\times4+(1+2+3+4)=390.
+\]
+选取 $96,97,98,99$ 达到 $390$。若达到等号，则 $j<95$ 的坐标必须为零，$j>95$ 的四个坐标必须为一；坐标和已经为四，所以 $z_{95}$ 也只能为零。因此达到最大值的选择是唯一的。
+\end{example}
+
+\section{九笔本金下界怎样使用整数条件}
+
+令 $z_{rj}$ 表示金额 $j$ 是否分配给第 $r$ 轮，其中 $r=1,2$、$1\le j\le99$。固定九笔时，可写出优化模型
+\begin{align}
+\text{最小化}\quad &b,\label{fa:ilp-obj}\\
+\text{满足}\quad
+&z_{rj}\in\{0,1\},\quad z_{1j}+z_{2j}\le1,\label{fa:ilp-unique}\\
+&\sum_{r=1}^2\sum_{j=1}^{99}z_{rj}=9,\label{fa:ilp-count}\\
+&\sum_{j=1}^{99}z_{rj}\ge1\quad(r=1,2),\label{fa:ilp-nonempty}\\
+&\sum_{r=1}^2\sum_{j=1}^{99}jz_{rj}\ge801,\label{fa:ilp-target}\\
+&\sum_{j=1}^{99}jz_{rj}\le b\quad(r=1,2),\qquad b\ge0.\label{fa:ilp-budget}
+\end{align}
+这里没有额外假设 $b$ 为整数。两轮金额总和为整数，故最优本金最终会落在相应的整百金额上。
+
+\begin{proposition}[整数分组与对偶证书共同给出 $411$]\label{fa:integer-cut}
+模型\eqref{fa:ilp-obj}--\eqref{fa:ilp-budget}的最优值为 $411$。
+\end{proposition}
+
+\begin{proof}
+令 $k_r=\sum_jz_{rj}$，则 $k_1,k_2$ 是非负整数，且 $k_1+k_2=9$。若二者均大于四，则二者均至少为五，总和至少为十，产生矛盾。因此有一个轮次的笔数 $k$ 不超过四。
+
+这个轮次的金额选择属于 $\Delta_{99,k}$。由定理\ref{fa:support-formula}，其总额至多为 $H_{99}(k)$。对于 $0\le k<4$，
+\[
+H_{99}(k+1)-H_{99}(k)=99-k>0,
+\]
+所以该轮总额不超过 $H_{99}(4)=390$。总付款至少为 $801$，另一轮就至少支付 $801-390=411$。由每轮预算约束，得到 $b\ge411$。
+
+选第一轮金额 $99,98,97,96$，第二轮金额 $95,94,93,92,37$。九个金额全异，总额为 $801$，两轮总额分别为 $390$ 与 $411$。取 $b=411$ 即满足所有约束，因而下界达到。
+\end{proof}
+
+这个证明中的两个环节职责不同：整数笔数把某一轮限制在至多四笔，线性对偶证书把这四笔的金额限制在至多 $390$。若去掉前一个整数环节，后一个线性估计不能自行决定应该采用 $k=4$。
+
+\section{连续松弛为什么得到更低的数字}
+
+把式\eqref{fa:ilp-unique}中的二元条件改为 $z_{rj}\ge0$，其余约束保持不变，就得到一个线性规划松弛。由 $z_{1j}+z_{2j}\le1$，每个变量也自动不超过 $1$。
+
+\begin{proposition}[连续松弛的精确最优值]\label{fa:relaxation}
+上述松弛问题的最优值为 $400.5$，对应 $40050$ 元；原整数问题的最优值为 $411$，两者相差 $1050$ 元。
+\end{proposition}
+
+\begin{proof}
+将两条预算约束相加，再使用总额门槛，得到
+\[
+2b\ge\sum_{r=1}^2\sum_{j=1}^{99}jz_{rj}\ge801,
+\]
+所以任何松弛可行解都满足 $b\ge400.5$。
+
+令
+\[
+J=\{37,92,93,94,95,96,97,98,99\}.
+\]
+其基数为九，加权和为 $801$。对 $j\in J$，令 $z_{1j}=z_{2j}=1/2$；对 $j\notin J$，令两个变量均为零。每个金额的两个分配量之和不超过一，全部分配量之和为九，总付款量为 $801$，两轮负载均为 $801/2=400.5$。因此取 $b=400.5$ 满足松弛模型的所有约束，下界达到。
+
+原整数最优值已由命题\ref{fa:integer-cut}证明为 $411$。单位转换后，二者差额为
+\[
+100(411-400.5)=1050\text{ 元}.
+\]
+\end{proof}
+
+上述分数解把每一个已选择金额各有一半指派给两轮，并没有把每一笔完整付款分配到唯一一轮。它因此不是九笔任务的执行方案。即使把松弛本金向上取到 $401$，仍然不能恢复二元分配条件；命题\ref{fa:integer-cut}已经排除了所有 $b<411$ 的九笔整数安排。
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=0.22cm,y=0.22cm,>=Stealth]
+  \fill[black!5] (0,0) rectangle (10.5,10.5);
+  \draw[->] (-1,0)--(25,0) node[right] {$u$};
+  \draw[->] (0,-1)--(0,25) node[above] {$v$};
+  \draw[thick] (0,21)--(21,21)--(21,0);
+  \draw[dashed] (0,10.5)--(10.5,10.5)--(10.5,0);
+  \draw[thick] (0,21)--(21,0);
+  \foreach \t in {10.5,21} {
+    \draw (\t,0)--(\t,-0.4) node[below,font=\small] {$\t$};
+    \draw (0,\t)--(-0.4,\t) node[left,font=\small] {$\t$};
+  }
+  \node[below left,font=\small] at (0,0) {$0$};
+  \fill (0,21) circle[radius=1.5pt];
+  \fill (21,0) circle[radius=1.5pt];
+  \fill (10.5,10.5) circle[radius=1.5pt];
+  \node[above left,font=\small] at (0,21) {$P$};
+  \node[below right=5pt,font=\small] at (21,0) {$Q$};
+  \node[above right,font=\small] at (10.5,10.5) {$M$};
+  \node[above,font=\small] at (14,21) {$b=411$};
+  \node[font=\small] at (5.2,5.2) {$b=400.5$};
+\end{tikzpicture}
+\caption{负载平面的局部图：坐标轴为 $u=s_1-390$、$v=s_2-390$。按原负载坐标，$P=(390,411)$、$Q=(411,390)$，中点 $M=(400.5,400.5)$。浅灰区域是本金 $400.5$ 所允许的局部负载范围。}
+\label{fa:convexification-figure}
+\end{figure}
+
+\section{凸组合与显式分离泛函}
+
+图\ref{fa:convexification-figure}中的两个整数负载 $P=(390,411)$ 与 $Q=(411,390)$ 均可执行。它们的平均值确实是
+\[
+\frac12P+\frac12Q=(400.5,400.5).
+\]
+所以这个中点属于可执行负载向量的凸包。不能把“中点不对应一个整数执行方案”误写成“中点不属于该凸包”。
+
+区别在于应当同时保留本金坐标。两个相应的负载与本金三维点，其本金坐标都是 $411$，其平均点为
+\[
+\frac12(390,411,411)+\frac12(411,390,411)
+=(400.5,400.5,411),
+\]
+而不是 $(400.5,400.5,400.5)$。对负载做平均后再重新求最大值，会把问题放宽；它不表示现实中已经获得了一个较低本金的整数方案。
+
+\begin{proposition}[一个显式的分离超平面]\label{fa:separation}
+把全部指派变量与本金组成向量 $(z,b)\in\mathbb R^{199}$。令 $\mathcal I$ 为模型\eqref{fa:ilp-obj}--\eqref{fa:ilp-budget}的全部整数指派可行点，$K=\operatorname{conv}(\mathcal I)$。设 $p$ 是命题\ref{fa:relaxation}构造的分数最优点。则线性泛函
+\[
+\ell(z,b)=b
+\]
+把 $p$ 与 $K$ 严格分开：
+\begin{equation}\label{fa:separation-inequality}
+\ell(p)=400.5<405.75<\ell(q)
+\qquad(q\in K).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+对任意向量 $(z,b)$，有 $|\ell(z,b)|=|b|\le\lVert(z,b)\rVert_\infty$，所以 $\ell$ 是连续线性泛函。
+
+由命题\ref{fa:integer-cut}，每个 $q_i=(z_i,b_i)\in\mathcal I$ 均满足 $b_i\ge411$。任取 $q\in K$，根据凸包的定义，可将其写成有限凸组合
+\[
+q=\sum_{i=1}^m\theta_iq_i,
+\qquad \theta_i\ge0,\quad\sum_{i=1}^m\theta_i=1.
+\]
+线性性给出
+\[
+\ell(q)=\sum_{i=1}^m\theta_i b_i
+\ge411\sum_{i=1}^m\theta_i=411.
+\]
+分数点的本金坐标为 $400.5$，而 $405.75=(400.5+411)/2$，于是式\eqref{fa:separation-inequality}成立。该超平面是直接写出的，不需要借助一般分离定理保证其存在。
+\end{proof}
+
+这说明本实例中有限维泛函分析的具体作用：范数表达资金预算，连续线性泛函给出可核验的下界，凸松弛展示“平均负载”与“可执行分组”的差别，显式分离泛函又把分数最优点与整数可行点的凸包区分开来。最终数值 $411$ 的证明仍然保留了九笔、整百、互异以及两轮执行这些离散条件。
+
+\chapter{抽象代数、整数格与生成函数}\label{aa:chapter}
+
+本章把一组付款金额表示为整数向量，再研究向量加法、整数不变量、生成函数与排列对称性。
+金额均以百元为单位，允许的金额标号为
+\[
+E=\{1,2,\ldots,99\}.
+\]
+本任务的累计门槛为 \(801\)，最少笔数为 \(9\)，两轮付款的最少本金为 \(411\)。
+这些数值结论在本章中继续作为约束使用，而不是在代数表示后被删除。
+幺半群、群同态与多项式环的标准背景可参阅文献\cite{judson}，生成函数与整数分拆的标准背景可参阅文献\cite{stanley}。
+以下针对本任务使用的结构、等价关系及计数公式均给出证明。
+
+\section{从付款列表到自由交换幺半群}
+
+\begin{definition}[计数向量]\label{aa:count-vector}
+令
+\[
+M=\mathbb Z_{\ge0}^{99}.
+\]
+向量 \(m=(m_1,\ldots,m_{99})\in M\) 的第 \(j\) 个坐标表示金额 \(j\) 出现了多少次。
+记 \(\mathbf e_j\) 为第 \(j\) 个坐标等于 \(1\)、其余坐标等于 \(0\) 的向量，则
+\[
+m=\sum_{j=1}^{99}m_j\mathbf e_j.
+\]
+定义次数与权重
+\[
+\delta(m)=\sum_{j=1}^{99}m_j,
+\qquad
+\omega(m)=\sum_{j=1}^{99}j\,m_j.
+\]
+次数是有效付款笔数，权重乘以 \(100\) 是有效付款总金额。
+\end{definition}
+
+在 \(M\) 上使用逐坐标加法。对任意 \(m,n,p\in M\)，第 \(j\) 个坐标满足
+\[
+((m+n)+p)_j=(m_j+n_j)+p_j
+=m_j+(n_j+p_j)=(m+(n+p))_j,
+\]
+并且 \(m_j+n_j=n_j+m_j\)、\(m_j+0=m_j\)。
+因此该加法结合、交换，零向量是单位元。
+这就给出了一个交换幺半群。
+
+\begin{proposition}[自由性]\label{aa:free-monoid}
+任取交换幺半群 \(H\)，并给定其中的 \(99\) 个元素
+\(g_1,\ldots,g_{99}\)。
+存在唯一的幺半群同态 \(f:M\to H\)，使得
+\(f(\mathbf e_j)=g_j\)。
+\end{proposition}
+
+\begin{proof}
+把 \(H\) 的运算写成加法，定义
+\[
+f(m)=m_1g_1+\cdots+m_{99}g_{99},
+\]
+其中 \(m_jg_j\) 表示将 \(g_j\) 相加 \(m_j\) 次，零次相加表示 \(H\) 的单位元。
+结合律与交换律保证括号和各项排列不影响结果。
+对 \(m,n\in M\)，每种 \(g_j\) 在 \(f(m+n)\) 中出现 \(m_j+n_j\) 次，所以
+\[
+f(m+n)=f(m)+f(n),
+\qquad f(0)=0.
+\]
+故 \(f\) 是同态，且 \(f(\mathbf e_j)=g_j\)。
+
+若 \(f'\) 也是满足这些条件的同态，则利用
+\(m=\sum_jm_j\mathbf e_j\) 和同态的加法性质，
+\[
+f'(m)=\sum_{j=1}^{99}m_jf'(\mathbf e_j)
+=\sum_{j=1}^{99}m_jg_j=f(m).
+\]
+每个 \(m\) 上的值都已被确定，因此这样的同态唯一。
+\end{proof}
+
+\begin{proposition}[次数和权重是同态]\label{aa:two-invariants}
+映射 \(\delta,\omega:M\to\mathbb Z_{\ge0}\) 都保持加法和零元。
+\end{proposition}
+
+\begin{proof}
+对任意 \(m,n\in M\)，分别计算
+\[
+\begin{aligned}
+\delta(m+n)
+&=\sum_{j=1}^{99}(m_j+n_j)
+=\sum_{j=1}^{99}m_j+\sum_{j=1}^{99}n_j
+=\delta(m)+\delta(n),\\
+\omega(m+n)
+&=\sum_{j=1}^{99}j(m_j+n_j)
+=\sum_{j=1}^{99}jm_j+\sum_{j=1}^{99}jn_j
+=\omega(m)+\omega(n).
+\end{aligned}
+\]
+将零向量代入两个定义，均得到 \(0\)。
+\end{proof}
+
+互异条件在该表示中必须写成
+\[
+m_j\in\{0,1\},\qquad 1\le j\le99.
+\]
+令 \(Q=\{0,1\}^{99}\subset M\)。
+由于 \(\mathbf e_j\in Q\)，但
+\(\mathbf e_j+\mathbf e_j=2\mathbf e_j\notin Q\)，
+集合 \(Q\) 对上述加法不封闭。
+因此，付款金额互异是一组需要保留的整数不等式约束，不能由交换幺半群的运算律代替。
+
+\begin{example}[相同的次数和权重不保证可执行性]\label{aa:lost-information}
+向量
+\[
+m=\mathbf e_{37}+\sum_{j=92}^{99}\mathbf e_j
+\]
+满足
+\[
+\delta(m)=9,\qquad
+\omega(m)=37+(92+93+\cdots+99)=37+764=801.
+\]
+但 \(9\mathbf e_{89}\) 也满足
+\[
+\delta(9\mathbf e_{89})=9,\qquad
+\omega(9\mathbf e_{89})=9\cdot89=801,
+\]
+后者把 \(89\) 重复使用九次，不满足互异条件。
+
+即使固定前一个互异金额集合，轮次划分也不能从 \(m\) 恢复。
+下面两种划分使用同一个 \(m\)：
+\[
+\begin{array}{c|c|c|c}
+ &\text{第一轮金额}&\text{第二轮金额}&\text{最少本金（百元）}\\ \hline
+\text{划分一}&96,97,98,99&37,92,93,94,95&\max\{390,411\}=411\\
+\text{划分二}&37,92,93,94&95,96,97,98,99&\max\{316,485\}=485
+\end{array}
+\]
+每轮付款后全额回收时，本金须覆盖该轮全部付款。
+所以次数和权重的两个整数值，甚至完整的无序金额集合，都不足以单独决定本金需求。
+\end{example}
+
+\section{群化、整数格与保持总量的变换}
+
+\begin{proposition}[计数幺半群的群化]\label{aa:completion}
+将 \(M\) 按坐标嵌入 \(\mathbb Z^{99}\)。
+每个 \(u\in\mathbb Z^{99}\) 都能写成 \(m-n\)，其中 \(m,n\in M\)。
+若 \(H\) 是交换群，\(f:M\to H\) 是幺半群同态，则它唯一地延伸为群同态
+\(\overline f:\mathbb Z^{99}\to H\)。
+\end{proposition}
+
+\begin{proof}
+对 \(u=(u_1,\ldots,u_{99})\)，取
+\[
+m_j=\max\{u_j,0\},\qquad n_j=\max\{-u_j,0\}.
+\]
+于是 \(m_j-n_j=u_j\)，从而 \(u=m-n\)。
+
+对任意这种表示，定义
+\(\overline f(u)=f(m)-f(n)\)。
+要检查定义与表示方式无关，设
+\(m-n=m'-n'\)。
+逐坐标整理得到 \(m+n'=m'+n\)，故
+\[
+f(m)+f(n')=f(m')+f(n).
+\]
+在交换群 \(H\) 中移项后，
+\[
+f(m)-f(n)=f(m')-f(n').
+\]
+因此 \(\overline f\) 定义良好。
+
+若 \(u=m-n\)、\(v=p-q\)，则
+\(u+v=(m+p)-(n+q)\)，所以
+\[
+\begin{aligned}
+\overline f(u+v)
+&=f(m+p)-f(n+q)\\
+&=f(m)+f(p)-f(n)-f(q)
+=\overline f(u)+\overline f(v).
+\end{aligned}
+\]
+它在 \(M\) 上与 \(f\) 一致。
+任何群同态若延伸 \(f\)，在 \(m-n\) 上都必须取值
+\(f(m)-f(n)\)，唯一性由此成立。
+\end{proof}
+
+次数和权重可按相同公式延伸到 \(\mathbb Z^{99}\)。
+把二者合并，得到整数矩阵所定义的映射
+\[
+\mathcal A:\mathbb Z^{99}\longrightarrow\mathbb Z^2,
+\qquad
+\mathcal A u=
+\begin{pmatrix}
+1&1&1&\cdots&1\\
+1&2&3&\cdots&99
+\end{pmatrix}u
+=
+\begin{pmatrix}\delta(u)\\ \omega(u)\end{pmatrix}.
+\]
+
+\begin{proposition}[整数满射与保持总量的格]\label{aa:integer-kernel}
+映射 \(\mathcal A\) 满射。
+其核
+\[
+L=\{u\in\mathbb Z^{99}:\delta(u)=0,\ \omega(u)=0\}
+\]
+具有下面的整数基：
+\[
+h_j=\mathbf e_j-2\mathbf e_{j+1}+\mathbf e_{j+2},
+\qquad 1\le j\le97.
+\]
+换言之，
+\[
+L=\bigoplus_{j=1}^{97}\mathbb Z h_j,
+\]
+所以 \(L\) 是秩 \(97\) 的自由交换群，也是在实向量空间中由这 \(97\) 个向量生成的整数格。
+\end{proposition}
+
+\begin{proof}
+先证明满射。任取 \((r,s)\in\mathbb Z^2\)，令
+\[
+u=(2r-s)\mathbf e_1+(s-r)\mathbf e_2.
+\]
+直接计算
+\[
+\delta(u)=(2r-s)+(s-r)=r,
+\qquad
+\omega(u)=(2r-s)+2(s-r)=s.
+\]
+因此每个整数对都有原像。
+这里使用的是整数群，原像的坐标允许为负；满射结论本身不表示任意整数对都有可执行的付款方案。
+
+接着计算
+\[
+\delta(h_j)=1-2+1=0,
+\qquad
+\omega(h_j)=j-2(j+1)+(j+2)=0.
+\]
+所以每个 \(h_j\) 都属于 \(L\)。
+
+为证明它们生成 \(L\)，取任意 \(u\in L\)，记 \(r^{(0)}=u\)。
+按 \(j=1,\ldots,97\) 的顺序，定义
+\[
+c_j=r^{(j-1)}_j,
+\qquad
+r^{(j)}=r^{(j-1)}-c_jh_j.
+\]
+向量 \(h_j\) 在第 \(j\) 个坐标之前全部为零，因此此步骤不会改变前面已经消去的坐标；
+第 \(j\) 个坐标则变为 \(r^{(j-1)}_j-c_j=0\)。
+每一步仍留在 \(L\) 中。
+进行到 \(j=97\) 后，只可能剩下第 \(98,99\) 个坐标。
+把它们记为 \(p,q\)，核的两条等式给出
+\[
+p+q=0,\qquad98p+99q=0.
+\]
+用第二式减去第一式的 \(98\) 倍，得到 \(q=0\)，再代入第一式得到 \(p=0\)。
+因此 \(r^{(97)}=0\)，且
+\(u=\sum_{j=1}^{97}c_jh_j\)。
+
+最后证明整数线性无关。
+设 \(\sum_{j=1}^{97}c_jh_j=0\)。
+第一个坐标等于 \(c_1\)，故 \(c_1=0\)。
+若已经知道 \(c_1,\ldots,c_{j-1}\) 都为零，则第 \(j\) 个坐标为
+\[
+c_j-2c_{j-1}+c_{j-2}=c_j,
+\]
+这里将未出现的 \(c_0,c_{-1}\) 约定为零。
+因此 \(c_j=0\)。
+依次处理到 \(j=97\)，所有系数都为零。
+生成性与无关性一起证明了所述整数基结论。
+这段逐坐标推导在系数为实数时仍逐项推出零系数，因此这 \(97\) 个向量也在实数域上线性无关；
+其整数线性组合集合就是所述整数格。
+\end{proof}
+
+\begin{proposition}[整数格的多项式表示]\label{aa:double-root}
+对 \(u\in\mathbb Z^{99}\)，定义整数多项式
+\[
+U_u(t)=\sum_{j=1}^{99}u_jt^{j-1}.
+\]
+则
+\[
+u\in L
+\quad\Longleftrightarrow\quad
+(t-1)^2\text{ 在 }\mathbb Z[t]\text{ 中整除 }U_u(t).
+\]
+\end{proposition}
+
+\begin{proof}
+有限多项式的代入和形式求导给出
+\[
+U_u(1)=\delta(u),\qquad
+U_u'(1)=\sum_{j=1}^{99}(j-1)u_j=\omega(u)-\delta(u).
+\]
+所以 \(u\in L\) 等价于
+\(U_u(1)=U_u'(1)=0\)。
+
+若 \(U_u(1)=0\)，则
+\[
+U_u(t)=\sum_{j=1}^{99}u_j(t^{j-1}-1).
+\]
+对于整数 \(k\ge1\)，恒等式
+\[
+t^k-1=(t-1)(1+t+\cdots+t^{k-1})
+\]
+说明每个括号都能被 \(t-1\) 整除，且商仍是整数多项式。
+因此可写成 \(U_u(t)=(t-1)V(t)\)，其中 \(V\in\mathbb Z[t]\)。
+求导并代入 \(t=1\)，得到
+\[
+U_u'(1)=V(1).
+\]
+若 \(U_u'(1)=0\)，对 \(V\) 再应用上述恒等式，就有
+\(V(t)=(t-1)W(t)\)，从而 \(U_u(t)=(t-1)^2W(t)\)。
+
+反过来，若 \(U_u(t)=(t-1)^2W(t)\)，则代入 \(1\) 得 \(U_u(1)=0\)；
+其导数为
+\[
+U_u'(t)=2(t-1)W(t)+(t-1)^2W'(t),
+\]
+代入 \(1\) 也为零。
+于是 \(\delta(u)=0\) 且 \(\omega(u)=0\)，即 \(u\in L\)。
+\end{proof}
+
+在该表示下，\(h_j\) 对应于
+\[
+t^{j-1}-2t^j+t^{j+1}=t^{j-1}(t-1)^2.
+\]
+因此，保持次数与总金额的整数关系，也可理解为具有二重因子 \(t-1\) 的整数多项式。
+
+\begin{example}[代数变换与约束检查]\label{aa:local-move}
+五笔金额
+\[
+80,\ 81,\ 82,\ 83,\ 85
+\]
+合计 \(411\)。
+将其中的 \(80,85\) 改为 \(79,86\)，得到
+\[
+79,\ 81,\ 82,\ 83,\ 86,
+\]
+其总和仍为 \(411\)，五个金额仍互异且都位于 \(1,\ldots,95\)。
+计数向量之差为
+\[
+u=\mathbf e_{79}+\mathbf e_{86}-\mathbf e_{80}-\mathbf e_{85}.
+\]
+它满足
+\[
+\delta(u)=1+1-1-1=0,\qquad
+\omega(u)=79+86-80-85=0,
+\]
+故 \(u\in L\)。
+
+然而，格中还包含 \(h_{80}\)。
+对含有 \(80,82\)、不含 \(81\) 的互异计数向量直接加上 \(h_{80}\)，
+第 \(81\) 个坐标会变成 \(-2\)，不再属于 \(M\)。
+因此，把两个可行计数向量的差表示为格基的整数线性组合，只给出不变量关系；
+若要把它解释为逐步修改金额的算法，每一步还必须检查非负、互异和两轮预算。
+\end{example}
+
+\section{生成多项式同时记录两轮选择}
+
+定义四变量整数多项式
+\begin{equation}\label{aa:colored-generator}
+F(u,v,z,w)=\prod_{j=1}^{99}\bigl(1+u z^j+v w^j\bigr).
+\end{equation}
+对多项式 \(P\)，记
+\([u^kv^\ell z^s w^t]P\) 为对应单项式的系数。
+
+\begin{proposition}[系数与两轮分组的精确对应]\label{aa:coefficient}
+系数
+\[
+[u^kv^\ell z^s w^t]F
+\]
+等于满足下列条件的有序集合对 \((I,J)\) 的个数：
+\[
+I,J\subset E,\quad I\cap J=\varnothing,\quad
+|I|=k,\quad|J|=\ell,\quad
+\sum_{i\in I}i=s,\quad\sum_{j\in J}j=t.
+\]
+其中第一轮使用 \(I\)，第二轮使用 \(J\)。
+\end{proposition}
+
+\begin{proof}
+展开乘积时，对每个标号 \(j\)，恰好从对应因子中选取一项。
+选 \(1\) 表示不用金额 \(j\)，选 \(uz^j\) 表示把它放入第一轮，选 \(vw^j\) 表示把它放入第二轮。
+同一个因子不能同时选择后两项，因此同一金额不会进入两轮。
+
+所有选中的项相乘后，\(u,v\) 的指数分别等于两轮选择的金额个数，
+\(z,w\) 的指数分别等于两轮金额之和。
+每次逐因子选择都贡献系数 \(1\)。
+具有相同四个指数的选择在展开后合并，其个数就是相应系数。
+
+反过来，给定满足条件的 \((I,J)\)，对 \(j\in I\) 选 \(uz^j\)，
+对 \(j\in J\) 选 \(vw^j\)，对其余标号选 \(1\)。
+由于 \(I\cap J=\varnothing\)，这个选择在每个因子中都有唯一决定，并产生所需单项式。
+这两个构造互为逆映射，因此计数相等。
+\end{proof}
+
+若两轮均须有付款，预算为 \(b\) 个百元单位，则定义
+\begin{equation}\label{aa:feasibility-coefficient}
+\mathcal C_{n,b}
+=
+\sum_{\substack{1\le k\le n-1\\
+                1\le s,t\le b\\
+                s+t\ge801}}
+[u^k v^{n-k}z^s w^t]F.
+\end{equation}
+当原始预算不是整百元时，可以把 \(b\) 取为其百元数的下取整，因为每轮付款总额都是整百元。
+
+\begin{corollary}[有限代数可行性判据]\label{aa:feasibility}
+两轮、\(n\) 笔、预算 \(b\) 的方案存在，当且仅当
+\(\mathcal C_{n,b}>0\)。
+该系数和计数的是带轮次标签的金额集合对，不包含轮内排列。
+\end{corollary}
+
+\begin{proof}
+若方案存在，取两轮实际使用的集合 \(I,J\)。
+金额互异给出 \(I\cap J=\varnothing\)，每轮能由本金支付给出 \(s,t\le b\)，任务达标给出 \(s+t\ge801\)。
+命题\ref{aa:coefficient}说明其对应的系数至少为 \(1\)，所以式\eqref{aa:feasibility-coefficient}中的和为正。
+
+若该和为正，由于每个系数都是非负整数，至少有一项为正。
+命题\ref{aa:coefficient}给出一个符合该项指数条件的集合对 \(I,J\)。
+第一轮任意付款前缀的总额不超过整个第一轮总额 \(s\le b\)，所以可以完成这一轮；
+将 \(s\) 全额回收后，可用本金恢复为 \(b\)。
+第二轮任意付款前缀的总额不超过 \(t\le b\)，因此第二轮也能完成。
+最后全额回收 \(t\)，本金全部恢复。
+故得到满足要求的实际两轮安排。
+\end{proof}
+
+上述多项式的各个变量分别保留笔数、轮次和金额。
+若只保留总次数与总权重，则发生图\ref{aa:forgetful-square}所示的遗忘。
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth,
+  box/.style={draw,rectangle,align=center,minimum height=1.0cm,text width=5.2cm},
+  every node/.style={font=\small}]
+\node[box] (a) at (0,0) {\((m^{(1)},m^{(2)})\in M\times M\)};
+\node[box] (b) at (8,0) {\(m^{(1)}+m^{(2)}\in M\)};
+\node[box] (c) at (0,-2.4) {\((k,\ell,s,t)\in\mathbb Z_{\ge0}^{4}\)};
+\node[box] (d) at (8,-2.4) {\((k+\ell,s+t)\in\mathbb Z_{\ge0}^{2}\)};
+\draw[->] (a) -- node[above] {\(\mu\)} (b);
+\draw[->] (a) -- node[left] {\(\Phi\)} (c);
+\draw[->] (b) -- node[right] {\((\delta,\omega)\)} (d);
+\draw[->] (c) -- node[above] {\(\Sigma\)} (d);
+\end{tikzpicture}
+\caption{从两轮计数向量到总次数与总金额的交换图。}
+\label{aa:forgetful-square}
+\end{figure}
+
+这里
+\[
+\begin{aligned}
+\Phi(m^{(1)},m^{(2)})
+&=\bigl(\delta(m^{(1)}),\delta(m^{(2)}),
+         \omega(m^{(1)}),\omega(m^{(2)})\bigr),\\
+\mu(m^{(1)},m^{(2)})&=m^{(1)}+m^{(2)},\\
+\Sigma(k,\ell,s,t)&=(k+\ell,s+t).
+\end{aligned}
+\]
+命题\ref{aa:two-invariants}的两条加法等式逐坐标给出
+\[
+(\delta,\omega)\circ\mu=\Sigma\circ\Phi,
+\]
+这就是图中两条路径具有相同结果的含义。
+要检查本金约束，应保留 \(s,t\) 两个分量，并分别比较它们与 \(b\)；
+只保留 \(s+t\) 会丢失这一信息。
+
+\section{全部最优金额集合与整数分拆}
+
+先把九笔、预算 \(411\) 的可行集合完整刻画出来。
+九笔分成两轮，笔数较少的一轮至多四笔，其金额之和至多
+\[
+96+97+98+99=390.
+\]
+另一轮的和至多为预算 \(411\)。
+因此两轮总和至多为 \(390+411=801\)，而任务要求总和至少为 \(801\)。
+两边只能同时取等号。
+较少的一轮必须恰好有四笔，并选取 \(96,97,98,99\)；
+剩余五笔属于 \(1,\ldots,95\)，合计 \(411\)。
+
+所以每个最优金额集合唯一对应于一个严格递增五元组
+\begin{equation}\label{aa:five-tuple}
+1\le a_1<a_2<a_3<a_4<a_5\le95,
+\qquad
+a_1+\cdots+a_5=411.
+\end{equation}
+相应的计数也可写为
+\[
+[y^5z^{411}]\prod_{j=1}^{95}(1+yz^j).
+\]
+
+\begin{theorem}[最优集合与分拆的双射]\label{aa:partition-bijection}
+式\eqref{aa:five-tuple}中的五元组，与所有满足
+\[
+d_1\ge d_2\ge d_3\ge d_4\ge d_5\ge0,
+\qquad
+d_1+\cdots+d_5=54
+\]
+的整数五元组一一对应。
+对应公式为
+\[
+d_i=90+i-a_i,\qquad
+a_i=90+i-d_i.
+\]
+因此，最优金额集合的个数等于 \(54\) 分拆成至多五个正部分的个数。
+\end{theorem}
+
+\begin{proof}
+从满足式\eqref{aa:five-tuple}的 \(a\) 出发。
+由于后面还有 \(5-i\) 个严格较大的整数，而 \(a_5\le95\)，
+\[
+a_i+(5-i)\le95,
+\]
+所以 \(a_i\le90+i\)，即 \(d_i\ge0\)。
+相邻两项满足
+\[
+d_i-d_{i+1}=a_{i+1}-a_i-1\ge0.
+\]
+此外，
+\[
+\sum_{i=1}^{5}d_i
+=(91+92+93+94+95)-411
+=465-411=54.
+\]
+因此所得 \(d\) 满足所述条件。
+
+反过来，取满足条件的 \(d\)，定义 \(a_i=90+i-d_i\)。
+相邻差为
+\[
+a_{i+1}-a_i=1+d_i-d_{i+1}\ge1,
+\]
+所以 \(a\) 严格递增。
+由 \(d_5\ge0\)，得到 \(a_5=95-d_5\le95\)。
+又因为 \(d_1\le\sum_i d_i=54\)，
+\[
+a_1=91-d_1\ge91-54=37>0.
+\]
+最后，
+\[
+\sum_{i=1}^{5}a_i=465-\sum_{i=1}^{5}d_i=465-54=411.
+\]
+故 \(a\) 满足式\eqref{aa:five-tuple}。
+两条对应公式逐项互相还原，因此构成双射。
+
+从 \(d\) 中删去末尾的零，得到 \(54\) 的至多五个正部分；
+从这种分拆末尾补零至五项，就恢复 \(d\)。
+这也给出了与整数分拆之间的双射。
+\end{proof}
+
+\begin{proposition}[分拆的独立非负坐标]\label{aa:difference-coordinates}
+约定 \(d_6=0\)，令
+\[
+t_i=d_i-d_{i+1},\qquad 1\le i\le5.
+\]
+则上一定理中的分拆，与非负整数方程
+\begin{equation}\label{aa:weighted-diophantine}
+t_1+2t_2+3t_3+4t_4+5t_5=54
+\end{equation}
+的解一一对应。
+对应的五笔金额为
+\[
+a_i=90+i-\sum_{r=i}^{5}t_r.
+\]
+\end{proposition}
+
+\begin{proof}
+由 \(d_i\ge d_{i+1}\)，每个 \(t_i\) 都非负。
+连续相加后中间项抵消，给出
+\[
+\sum_{r=i}^{5}t_r
+=(d_i-d_{i+1})+\cdots+(d_5-d_6)=d_i.
+\]
+于是
+\[
+\sum_{i=1}^{5}d_i
+=\sum_{i=1}^{5}\sum_{r=i}^{5}t_r
+=\sum_{r=1}^{5}r\,t_r.
+\]
+最后一个等号成立，是因为固定 \(r\) 后，\(t_r\) 恰好在
+\(i=1,\ldots,r\) 这 \(r\) 个内层和中出现。
+因此 \(d\) 的总和为 \(54\) 等价于式\eqref{aa:weighted-diophantine}。
+
+反过来，对该方程的任一非负整数解，定义
+\(d_i=\sum_{r=i}^{5}t_r\)。
+有 \(d_i-d_{i+1}=t_i\ge0\)，且上式给出 \(\sum_i d_i=54\)。
+两种变换互为逆变换，再结合定理\ref{aa:partition-bijection}即可恢复金额。
+\end{proof}
+
+\begin{example}[三种最优集合的分拆坐标]\label{aa:partition-examples}
+下面列出三种五笔部分；每行都再加上 \(96,97,98,99\)，形成完整的九笔金额集合。
+\[
+\begin{array}{c|c|c}
+(a_1,\ldots,a_5)&(d_1,\ldots,d_5)&(t_1,\ldots,t_5)\\ \hline
+(80,81,82,83,85)&(11,11,11,11,10)&(0,0,0,1,10)\\
+(73,74,75,94,95)&(18,18,18,0,0)&(0,0,18,0,0)\\
+(37,92,93,94,95)&(54,0,0,0,0)&(54,0,0,0,0)
+\end{array}
+\]
+第一行的加权和为 \(4+5\cdot10=54\)，第二行为 \(3\cdot18=54\)，第三行为 \(54\)。
+因此三行都满足式\eqref{aa:weighted-diophantine}。
+这把几种看上去不同的金额排列，放进了同一个非负整数方程中。
+\end{example}
+
+\begin{theorem}[最优金额集合的精确个数]\label{aa:optimal-count}
+九笔、最少本金 \(41100\) 元的无序金额集合共有
+\[
+\boxed{\OptimalSetCount\text{ 个}}.
+\]
+\end{theorem}
+
+\begin{proof}
+在形式幂级数环 \(\mathbb Z[[z]]\) 中，每个 \(t_j\) 对应
+\[
+1+z^j+z^{2j}+\cdots=\frac{1}{1-z^j}.
+\]
+取五个因子的乘积，\(z^{54}\) 的系数就是方程\eqref{aa:weighted-diophantine}的解数：
+\begin{equation}\label{aa:partition-generator}
+p_5(54)=[z^{54}]\prod_{j=1}^{5}\frac{1}{1-z^j}.
+\end{equation}
+这里的等式按系数解释；对 \(z^{54}\) 而言，每个 \(t_j\le54/j\)，参与计数的选择有限，不需要分析意义的收敛条件。
+
+为给出可复核的整数计算，定义
+\[
+p_j(s)=
+\#\{(t_1,\ldots,t_j)\in\mathbb Z_{\ge0}^{j}:
+t_1+2t_2+\cdots+jt_j=s\}.
+\]
+约定 \(p_j(s)=0\)（\(s<0\)），
+\(p_0(0)=1\)，以及 \(p_0(s)=0\)（\(s>0\)）。
+对 \(j\ge1\)，把解分成 \(t_j=0\) 和 \(t_j\ge1\) 两类。
+第一类删去最后坐标后，恰好由 \(p_{j-1}(s)\) 计数。
+第二类把 \(t_j\) 减少 \(1\)，得到权重为 \(s-j\) 的 \(j\) 元非负解；
+反向把该坐标增加 \(1\)，就恢复第二类解。
+因此
+\begin{equation}\label{aa:partition-recurrence}
+p_j(s)=p_{j-1}(s)+p_j(s-j).
+\end{equation}
+
+也可以固定 \(t_5=r\)，把计算缩减为
+\[
+p_5(54)=\sum_{r=0}^{10}p_4(54-5r).
+\]
+对任意 \(s\ge0\)，固定 \(t_4,t_3\) 后，剩余方程为
+\[
+t_1+2t_2=s-4t_4-3t_3.
+\]
+其解由
+\(t_2=0,\ldots,\lfloor(s-4t_4-3t_3)/2\rfloor\)
+逐一给出，\(t_1\) 随之唯一确定。
+因此
+\begin{equation}\label{aa:finite-count}
+p_4(s)=
+\sum_{t_4=0}^{\lfloor s/4\rfloor}
+\ \sum_{t_3=0}^{\lfloor(s-4t_4)/3\rfloor}
+\left(
+\left\lfloor\frac{s-4t_4-3t_3}{2}\right\rfloor+1
+\right).
+\end{equation}
+式\eqref{aa:partition-recurrence}或式\eqref{aa:finite-count}都给出下表的有限整数计算：
+\[
+\begin{array}{c|rrrrrrrrrrr}
+r&0&1&2&3&4&5&6&7&8&9&10\\ \hline
+54-5r&54&49&44&39&34&29&24&19&14&9&4\\
+p_4(54-5r)&1425&1089&816&588&411&270&169&94&47&18&5
+\end{array}
+\]
+将最后一行相加，
+\[
+\begin{aligned}
+p_5(54)
+&=1425+1089+816+588+411+270\\
+&\quad+169+94+47+18+5\\
+&=4932.
+\end{aligned}
+\]
+由定理\ref{aa:partition-bijection}，每个解对应且只对应一个最优金额集合，因此该数就是所求集合数。
+\end{proof}
+
+\section{对称群与可执行顺序的计数}
+
+设 \(S\subset E\) 是一个固定的九元素金额集合。
+所有把 \(S\) 的元素各列出一次的有序列表，记为 \(\mathcal W(S)\)。
+对称群 \(\mathfrak S_9\) 在这些列表上作用：
+\[
+(\sigma\cdot x)_i=x_{\sigma^{-1}(i)}.
+\]
+单位置换不改变任何坐标。
+对于 \(\sigma,\tau\in\mathfrak S_9\)，
+\[
+((\sigma\tau)\cdot x)_i
+=x_{\tau^{-1}(\sigma^{-1}(i))}
+=(\sigma\cdot(\tau\cdot x))_i,
+\]
+所以确实满足群作用的两条规则。
+
+因为列表中的九个数互不相同，若 \(\sigma\cdot x=x\)，则
+\(x_{\sigma^{-1}(i)}=x_i\) 强制 \(\sigma^{-1}(i)=i\) 对每个 \(i\) 成立，故 \(\sigma\) 是单位置换。
+此外，任意两份列表都可按每个金额所在的位置唯一地重新排列成对方。
+因此，该作用自由且传递。
+
+这个群作用保持金额集合、次数和总权重；要研究固定本金下的实际顺序，还必须指定第一次回收发生在哪一笔之后。
+固定一个最优集合，按四笔在前、五笔在后执行时，保持两轮集合不变的轮内置换构成
+\[
+\mathfrak S_4\times\mathfrak S_5.
+\]
+
+\begin{proposition}[最优集合的可执行顺序数]\label{aa:order-count}
+此处尚未要求最后一笔为 \(37\)，也未要求前八笔连续。
+对每个最优金额集合，若只计付款金额顺序和第一次回收的位置，
+不计等待时长，并规定两轮结束后分别全额回收，则预算 \(411\) 下共有
+\[
+2\cdot4!\cdot5!=5760
+\]
+种可执行安排。
+所有最优金额集合合计共有
+\[
+4932\cdot5760=28408320
+\]
+种这样的安排。
+\end{proposition}
+
+\begin{proof}
+对固定最优集合，四笔轮必须是 \(\{96,97,98,99\}\)，总和为 \(390\)；
+五笔轮必须是其余五个金额，总和为 \(411\)。
+这两轮可以按四笔在前、五笔在后执行，也可以交换两轮次序。
+
+固定第一种轮次顺序。
+四笔轮的金额互异，有 \(4!\) 种排列；五笔轮有 \(5!\) 种排列。
+每个金额都为正，因此任一轮内的付款前缀总额不超过该轮全部付款总额。
+这两个轮总额分别为 \(390\) 和 \(411\)，都不超过预算 \(411\)。
+第一轮结束后全额回收会把可用本金恢复为 \(411\)，所以任意轮内排列都可执行。
+因此第一种轮次顺序给出 \(4!5!\) 个安排。
+
+交换两轮后，同一前缀论证仍逐轮适用：
+现在第一轮总额为 \(411\)，回收后恢复预算 \(411\)，第二轮总额为 \(390\)。
+故交换后的轮次顺序也给出 \(5!4!\) 个安排。
+两类安排的第一次回收分别发生在第 \(4\) 笔和第 \(5\) 笔之后，互不重复。
+
+反过来，任何预算 \(411\) 的九笔可执行安排，都必须使用前述四笔集合与五笔集合进行两轮划分；
+否则不能同时达到两轮和的上界 \(390,411\)。
+因此所有可能安排已经被这两类覆盖。
+总数为
+\[
+4!5!+5!4!=2\cdot24\cdot120=5760.
+\]
+
+不同金额集合产生的付款列表不可能相同，因为从列表可以恢复其金额集合。
+所以各个集合的安排互不重叠，乘以定理\ref{aa:optimal-count}中的集合数，得到
+\[
+4932\cdot5760=28408320.
+\]
+\end{proof}
+
+\begin{example}[连续八笔加最小尾款如何选出唯一顺序]\label{aa:chosen-order}
+现在进一步要求最后一笔为 \(37\)，前八笔连续且递减，总额至少为 \(801\)，预算为 \(411\)。
+
+前八笔必须合计至少为 \(801-37=764\)。
+八个不同允许金额的最大和是
+\[
+92+93+\cdots+99=764.
+\]
+所以前八笔只能使用这些金额，递减要求把顺序固定为
+\[
+99,\ 98,\ 97,\ 96,\ 95,\ 94,\ 93,\ 92.
+\]
+最后接上 \(37\)。
+
+设第一次回收发生在第 \(k\) 笔之后，前 \(k\) 笔的和为 \(P_k\)。
+两轮各自都要由预算 \(411\) 支付，故
+\[
+P_k\le411,\qquad801-P_k\le411,
+\]
+即
+\[
+390\le P_k\le411.
+\]
+实际前缀满足
+\[
+P_3=99+98+97=294,\qquad
+P_4=390,\qquad
+P_5=485.
+\]
+所有付款都为正，前缀和严格递增。
+当 \(k\le3\) 时，\(P_k\le294<390\)；
+当 \(k\ge5\) 时，\(P_k\ge485>411\)。
+因此只能在第 \(4\) 笔之后进行第一次回收。
+
+于是，本金最优集合虽有 \(4932\) 个，全部可执行顺序更多，
+但再加入“最小尾款为 \(37\)、前八笔连续递减”的要求后，
+金额顺序与中途回收位置都被唯一确定：
+\[
+99,98,97,96
+\quad\longrightarrow\quad
+\text{回收 }390
+\quad\longrightarrow\quad
+95,94,93,92,37
+\quad\longrightarrow\quad
+\text{回收 }411.
+\]
+这里回收金额由对应一轮的付款总额决定，最后本金全部恢复。
+\end{example}
+
+\chapter{范畴论的执行语义与信息遗忘}\label{cat:chapter}
+
+本章把付款金额、余额、已用金额和回收次数放在同一个状态中，再把完整操作过程表示为状态之间的路径。范畴与函子的标准背景可参见\cite{riehl}；本章直接证明所用构造的性质。这里的范畴论用于区分合法操作与累计统计，并说明遗忘信息会失去哪些约束。数值最优性的证明仍然需要整数金额条件和资金约束。
+
+\section{有限状态图与两种合法操作}
+
+本章所有金额均以百元为单位。记
+\[
+J=\{1,2,\ldots,99\},\qquad
+\mathbb N_0=\{0,1,2,\ldots\},
+\]
+并固定整数本金 $b\in\mathbb N_0$。实际方案使用 $b=411$。由于柜台回收本身不计入有效付款总额，回收的金额可以超过 $99$；$j\le99$ 的限制只施加于手机有效付款。
+
+\begin{definition}[完整状态]\label{cat:state}
+一个状态为五元组
+\[
+q=(a,c,s,U,r),
+\]
+其中 $a,c\in\mathbb N_0$ 分别为付款账户和接收端持有的本任务资金，$U\subseteq J$ 是已经使用过的有效付款金额集合，$s$ 是有效付款累计金额，$r$ 是已经发生的柜台回收次数。要求
+\begin{equation}\label{cat:state-constraints}
+a+c=b,\qquad s=\sum_{j\in U}j,\qquad r\in\{0,1,2\}.
+\end{equation}
+初始状态为
+\[
+q_b^0=(b,0,0,\varnothing,0).
+\]
+完成状态同时满足 $c=0$、$s\ge801$ 和 $r=2$。当限定九笔时，再要求 $|U|=9$。
+\end{definition}
+
+$c=0$ 表示本金已经全部回到付款账户。它与 $s\ge801$ 是两个不同的终止条件，分别表达本金收回和任务达标。状态中的 $a$ 与 $c$ 仅计算本任务使用的资金；其他资金不作为可以补入的本金。
+
+\begin{definition}[状态图 $G_b$]\label{cat:graph}
+以定义\ref{cat:state}中的状态为顶点，加入以下两类有向边。
+\begin{enumerate}
+\item \textbf{付款边。}若 $j\in J\setminus U$ 且 $j\le a$，允许
+\begin{equation}\label{cat:payment-edge}
+(a,c,s,U,r)\xrightarrow{\,P_j\,}
+(a-j,c+j,s+j,U\cup\{j\},r).
+\end{equation}
+\item \textbf{回收边。}若 $c>0$ 且 $r<2$，允许
+\begin{equation}\label{cat:return-edge}
+(a,c,s,U,r)\xrightarrow{\,R_c\,}
+(a+c,0,s,U,r+1)=(b,0,s,U,r+1).
+\end{equation}
+\end{enumerate}
+每条回收边都表示一次柜台回收。图中没有额外补钱、借款或其他回流的边。相同符号 $P_j$ 在不同起点表示不同的边，边的完整数据包括起点、操作种类和终点。
+\end{definition}
+
+\begin{proposition}[状态约束的保持与有限性]\label{cat:finite}
+上述操作保持式\eqref{cat:state-constraints}。图 $G_b$ 的顶点和边均有限，并且每条有向路径的边数不超过 $101$。
+\end{proposition}
+\begin{proof}
+对付款边，$j\le a$ 保证 $a-j\ge0$，而
+\[
+(a-j)+(c+j)=a+c=b.
+\]
+由于 $j\notin U$，新集合的元素之和为
+\[
+\sum_{i\in U\cup\{j\}}i=\sum_{i\in U}i+j=s+j.
+\]
+因此付款后的余额、累计金额和已用金额集合满足状态约束。
+
+对回收边，$a+c=b$ 给出新余额 $(b,0)$。$s$ 与 $U$ 都不改变，$r<2$ 保证 $r+1\le2$。所以回收后的状态也满足约束。
+
+给定 $a\in\{0,\ldots,b\}$ 后，$c=b-a$ 被确定；给定 $U\subseteq J$ 后，$s$ 被确定；$r$ 只有三个取值。因此顶点数为 $3(b+1)2^{99}$。每个顶点至多有 $99$ 条付款边和一条回收边，边集也有限。并非每个顶点都能从 $q_b^0$ 到达，定义图时允许存在不可达顶点。
+
+定义整数函数
+\[
+\ell(q)=|U|+r.
+\]
+每条付款边使 $|U|$ 增加 $1$，每条回收边使 $r$ 增加 $1$，所以每经过一条边，$\ell$ 都增加 $1$。又有 $0\le\ell\le99+2=101$，因此任何路径最多包含 $101$ 条边。
+\end{proof}
+
+\begin{proposition}[完成路径与实际两轮过程]\label{cat:execution}
+从 $q_{411}^0$ 出发，到达一个完成状态且恰有九条付款边的路径，与本任务的九笔可执行操作过程一一对应。每条这样的路径恰有两条回收边，并被它们分成两个非空付款段。
+\end{proposition}
+\begin{proof}
+从一个实际可执行过程出发，按照操作的先后次序更新状态。付款时，余额足够和金额未重复分别给出 $j\le a$ 与 $j\notin U$；全额回收时，执行式\eqref{cat:return-edge}。每一步的下一状态由当前状态和操作唯一确定，因此得到唯一的图中路径。
+
+反过来，路径中的每条付款边都满足正额、整百、单笔上限、互异和余额非负的条件；每条回收边都全额收回接收端资金，并把柜台次数增加 $1$。终点的 $s\ge801$ 保证有效累计达标，$c=0$ 保证本金全部收回。因此沿路径执行各条边就得到实际过程。两次转换保留相同的操作次序与状态，所以它们互为逆转换。
+
+完成路径至少有一条回收边。否则接收端余额从 $0$ 开始，只会因正额付款增加，无法在有效累计为正时再次等于 $0$。假设只有一条回收边。该回收之后不能再有付款，否则接收端又持有正额资金，且已无第二次回收来使终点满足 $c=0$。因此全部付款都发生在唯一的回收之前，其总额至多为初始本金 $411$，与 $s\ge801$ 矛盾。允许的回收次数至多为 $2$，故实际必须恰好为 $2$。
+
+回收要求 $c>0$，所以第一次回收之前至少有一笔付款，两次回收之间也至少有一笔付款。第二次回收之后若再付款，则 $c$ 变为正数；此后只能继续付款而不能回收，因而无法到达完成状态。所以第二次回收是最后一项操作，两条回收边恰好封闭两个非空付款段。
+\end{proof}
+
+\section{路径范畴及其自由性质}
+
+\begin{definition}[范畴与函子]\label{cat:category-definition}
+一个范畴由对象、对象之间的态射、可复合态射的复合运算以及恒等态射组成。若 $f:x\to y$、$g:y\to z$、$h:z\to w$，则要求
+\[
+h\circ(g\circ f)=(h\circ g)\circ f,
+\qquad
+\mathrm{id}_y\circ f=f=f\circ\mathrm{id}_x.
+\]
+从范畴 $\mathcal C$ 到范畴 $\mathcal D$ 的函子 $F$，为每个对象 $x$ 指定对象 $F(x)$，为每条态射 $f:x\to y$ 指定态射 $F(f):F(x)\to F(y)$，并满足
+\[
+F(\mathrm{id}_x)=\mathrm{id}_{F(x)},\qquad
+F(g\circ f)=F(g)\circ F(f).
+\]
+\end{definition}
+
+\begin{definition}[自由路径范畴]\label{cat:path-category}
+记 $\mathcal C_b=\mathcal P(G_b)$。其对象是 $G_b$ 的顶点；从 $x$ 到 $y$ 的态射是从 $x$ 到 $y$ 的有限有向路径
+\[
+p=(e_1,\ldots,e_m).
+\]
+每个顶点 $x$ 还有长度为 $0$ 的空路径 $\varepsilon_x:x\to x$。两条路径相等，当且仅当起点及整个边序列相等。
+
+若 $p=(e_1,\ldots,e_m):x\to y$ 与 $q=(f_1,\ldots,f_n):y\to z$，定义
+\begin{equation}\label{cat:concatenation}
+q\circ p=(e_1,\ldots,e_m,f_1,\ldots,f_n).
+\end{equation}
+这里 $q\circ p$ 的执行次序是先 $p$ 后 $q$。
+\end{definition}
+
+\begin{proposition}\label{cat:path-axioms}
+定义\ref{cat:path-category}确实给出一个有限范畴。它的可逆态射只有恒等态射。
+\end{proposition}
+\begin{proof}
+两条路径可以拼接的条件是前一条的终点等于后一条的起点，所以式\eqref{cat:concatenation}仍是有向路径。对第三条路径 $t=(g_1,\ldots,g_v)$，两种复合括号都得到同一个边序列
+\[
+(e_1,\ldots,e_m,f_1,\ldots,f_n,g_1,\ldots,g_v),
+\]
+因此满足结合律。在路径末尾或开头拼接空序列都不增加或删除边，分别给出 $\varepsilon_y\circ p=p$ 和 $p\circ\varepsilon_x=p$。
+
+命题\ref{cat:finite}已经给出有限边集和路径长度上界。有限边集上长度不超过 $101$ 的边序列只有有限多个，故全部态射的集合也有限。
+
+若 $p$ 有逆态射 $q$，则 $q\circ p$ 必须为空路径。由定义，复合路径的长度为 $\operatorname{len}(p)+\operatorname{len}(q)$，两个长度都是非负整数，和为 $0$ 只能使二者都为 $0$。所以 $p$ 和 $q$ 都是相应对象的恒等态射。
+\end{proof}
+
+付款后回收并不是付款的逆态射。例如，从初态付款 $j$ 再全额回收，终点为
+\[
+(b,0,j,\{j\},1),
+\]
+而初态为 $(b,0,0,\varnothing,0)$。现金余额虽然恢复，任务累计、已用金额和柜台次数都已经改变。
+
+\begin{theorem}[自由路径范畴的延拓性质]\label{cat:free-property}
+设 $\mathcal D$ 是一个范畴。为 $G_b$ 的每个顶点 $x$ 指定 $\mathcal D$ 中的对象 $A_x$，为每条边 $e:x\to y$ 指定态射 $\theta_e:A_x\to A_y$。则存在唯一函子
+\[
+F:\mathcal C_b\longrightarrow\mathcal D
+\]
+使 $F(x)=A_x$ 且 $F(e)=\theta_e$。
+\end{theorem}
+\begin{proof}
+先定义 $F(\varepsilon_x)=\mathrm{id}_{A_x}$。若 $p$ 后面接一条边 $e$，递归定义
+\[
+F(e\circ p)=\theta_e\circ F(p).
+\]
+一条路径的边序列已经确定，递归每次去掉最后一条边，经过有限步到达空路径，因此该定义给每条路径唯一指定一个态射。边的起终点条件保证每次递归中的复合都有定义。对只含一条边的路径，$F(e)=\theta_e\circ\mathrm{id}_{A_x}=\theta_e$，所以生成边的指定值也被保留。
+
+下面对 $q$ 的长度归纳，证明 $F(q\circ p)=F(q)\circ F(p)$。当 $q$ 为空路径时，左边为 $F(p)$，右边为 $\mathrm{id}\circ F(p)$，由恒等律二者相等。若 $q=e\circ q'$，并且结论对 $q'$ 成立，则
+\begin{align*}
+F(q\circ p)
+&=\theta_e\circ F(q'\circ p)\\
+&=\theta_e\circ\bigl(F(q')\circ F(p)\bigr)\\
+&=\bigl(\theta_e\circ F(q')\bigr)\circ F(p)\\
+&=F(q)\circ F(p).
+\end{align*}
+第三行使用 $\mathcal D$ 的结合律。恒等态射的保持已经包含在定义中，因此 $F$ 是函子。
+
+若另一个函子具有相同的顶点和边的指定值，它在空路径上的值必须为恒等态射；在长度为 $m+1$ 的路径上，保持复合的条件又将其值确定为最后一条边的像与前 $m$ 条边所成路径的像的复合。按路径长度归纳，两个函子在每条路径上相等，故延拓唯一。
+\end{proof}
+
+\section{累计统计函子与不能恢复的次序}
+
+把加法幺半群 $\mathbb N_0^3$ 看作一个只有一个对象 $*$ 的范畴，记为 $\mathbf B(\mathbb N_0^3)$。它的态射为三元组 $(n,r,s)$，恒等态射为 $(0,0,0)$，复合为三元组逐坐标相加。加法的结合律和零元性质验证了范畴公理。
+
+将所有状态对象都映到 $*$，并指定
+\begin{equation}\label{cat:generator-statistics}
+P_j\longmapsto(1,0,j),\qquad
+R_c\longmapsto(0,1,0).
+\end{equation}
+由定理\ref{cat:free-property}，这些指定唯一延拓为函子
+\[
+\Phi_b:\mathcal C_b\longrightarrow\mathbf B(\mathbb N_0^3).
+\]
+
+\begin{proposition}[统计量的精确含义]\label{cat:statistics}
+设 $p$ 是从 $x=(a,c,s,U,r)$ 到 $y=(a',c',s',U',r')$ 的路径，则
+\begin{equation}\label{cat:endpoint-statistics}
+\Phi_b(p)=\bigl(|U'|-|U|,\ r'-r,\ s'-s\bigr).
+\end{equation}
+三个分量依次是路径中的有效付款笔数、柜台回收次数、有效付款金额增量。
+\end{proposition}
+\begin{proof}
+每条付款边使 $(|U|,r,s)$ 增加 $(1,0,j)$，每条回收边使它增加 $(0,1,0)$，与式\eqref{cat:generator-statistics}完全一致。设路径依次经过 $q_0,\ldots,q_m$，记 $v(q)=(|U|,r,s)$。函子对复合的保持给出
+\[
+\Phi_b(p)=\sum_{i=1}^{m}\bigl(v(q_i)-v(q_{i-1})\bigr)
+=v(q_m)-v(q_0).
+\]
+求和中每个中间状态的向量都出现一次正号和一次负号，抵消后只留下终点减起点，这就得到式\eqref{cat:endpoint-statistics}。
+\end{proof}
+
+\begin{example}[两种次序具有相同统计量]\label{cat:nonfaithful-example}
+取 $b=411$，从 $q_0=(411,0,0,\varnothing,0)$ 出发。先付 $1$ 再付 $2$，以及先付 $2$ 再付 $1$，都是合法局部操作。中间状态分别为
+\[
+q_1=(410,1,1,\{1\},0),\qquad
+q_2=(409,2,2,\{2\},0),
+\]
+共同终点为
+\[
+q_{12}=(408,3,3,\{1,2\},0).
+\]
+这只是比较两笔次序的局部例子，不是完成八万元任务的方案。
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth,semithick]
+\node[draw,rounded corners,minimum width=1.3cm,minimum height=0.7cm] (q0) at (0,0) {$q_0$};
+\node[draw,rounded corners,minimum width=1.3cm,minimum height=0.7cm] (q1) at (-2.8,-1.7) {$q_1$};
+\node[draw,rounded corners,minimum width=1.3cm,minimum height=0.7cm] (q2) at (2.8,-1.7) {$q_2$};
+\node[draw,rounded corners,minimum width=1.3cm,minimum height=0.7cm] (q12) at (0,-3.4) {$q_{12}$};
+\draw[->] (q0) -- node[above left] {付款 $1$} (q1);
+\draw[->] (q0) -- node[above right] {付款 $2$} (q2);
+\draw[->] (q1) -- node[below left] {付款 $2$} (q12);
+\draw[->] (q2) -- node[below right] {付款 $1$} (q12);
+\end{tikzpicture}
+\caption{同首尾的两条路径在源范畴中不同，统计函子的像相同}
+\label{cat:diamond}
+\end{figure}
+
+图\ref{cat:diamond}的两条路径第一条边不同，所以按路径相等的定义，它们是不同态射。它们在 $\Phi_{411}$ 下的像分别为
+\[
+(1,0,1)+(1,0,2)=(2,0,3),
+\qquad
+(1,0,2)+(1,0,1)=(2,0,3).
+\]
+因此不能把源图中的菱形当作已经满足路径相等的交换图。它只在应用统计函子后成为相等的两种复合。
+\end{example}
+
+\begin{definition}[忠实函子]
+若函子在每一对固定对象 $x,y$ 之间诱导的态射映射
+\[
+\operatorname{Hom}_{\mathcal C}(x,y)
+\longrightarrow
+\operatorname{Hom}_{\mathcal D}(F(x),F(y))
+\]
+都是单射，则称该函子忠实。
+\end{definition}
+
+例\ref{cat:nonfaithful-example}给出了同一态射集合中两个不同元素具有相同的像，所以 $\Phi_{411}$ 不忠实。它保留统计总量，却不能恢复付款次序。即使金额集合和两轮分组已经固定，最后一笔的金额也不能仅由统计三元组恢复。例如将第二轮
+\[
+(95,94,93,92,37)
+\]
+改为 $(95,94,93,37,92)$，该轮总和仍为 $411$，所有前缀的付款额都不超过 $411$，因此两种顺序都合法。它们具有相同起终点和统计量，尾款却分别为 $37$ 与 $92$。尾款优化必须保留最后一条付款边的信息。
+
+\section{本金增加时的相容函子}
+
+\begin{proposition}[资源增加保持可执行性]\label{cat:budget-functor}
+对每个 $d\in\mathbb N_0$，存在函子
+\[
+I_{b,b+d}:\mathcal C_b\longrightarrow\mathcal C_{b+d},
+\qquad
+(a,c,s,U,r)\longmapsto(a+d,c,s,U,r),
+\]
+保持每条付款边的金额和每条回收边的回收金额。并且对任意 $e\in\mathbb N_0$，有
+\begin{align}
+I_{b,b}&=\mathrm{id}_{\mathcal C_b},\label{cat:budget-identity}\\
+I_{b+d,b+d+e}\circ I_{b,b+d}&=I_{b,b+d+e},\label{cat:budget-composition}\\
+\Phi_{b+d}\circ I_{b,b+d}&=\Phi_b.\label{cat:budget-statistics}
+\end{align}
+\end{proposition}
+\begin{proof}
+对象的总资金从 $a+c=b$ 变为 $(a+d)+c=b+d$，其他状态条件不改变。若原来有合法付款边 $P_j$，则 $j\le a\le a+d$，在新图中仍可支付；其终点为
+\[
+(a+d-j,c+j,s+j,U\cup\{j\},r),
+\]
+恰好是原终点在该对象映射下的像。若原来有回收边，则 $c>0$ 与 $r<2$ 都保持，回收后的新状态为 $(b+d,0,s,U,r+1)$，也是原回收终点的像。因此得到一个保持起终点的边标记，由定理\ref{cat:free-property}唯一延拓为函子。
+
+当 $d=0$ 时，对象和每条边都保持不变，得到式\eqref{cat:budget-identity}。先给 $a$ 加 $d$ 再加 $e$，与一次加 $d+e$ 得到相同对象；两种映射也保留相同的边标签。延拓的唯一性给出式\eqref{cat:budget-composition}。因为付款金额与回收边数都没有改变，两边的统计函子在每条生成边上相同，再由唯一性得到式\eqref{cat:budget-statistics}。
+\end{proof}
+
+该函子把初态 $q_b^0$ 映到 $q_{b+d}^0$，也把 $c=0$、$s\ge801$、$r=2$ 的完成状态映到满足相同条件的完成状态。因此已有方案可以带着额外的未使用本金执行。这证明了可行本金集合的向上封闭性；求最少本金还要确定从哪个 $b$ 开始存在完成路径。
+
+\section{遗忘互异信息会产生伪可行路径}
+
+定义一个放宽状态图 $\widehat G_b$，其对象为 $(a,c,s,r)$，满足
+\[
+a,c,s\in\mathbb N_0,\quad a+c=b,\quad 0\le s\le4950,\quad r\in\{0,1,2\}.
+\]
+这里 $4950=1+2+\cdots+99$。付款边仍要求 $j\in J$、$j\le a$ 和 $s+j\le4950$，但不检查金额是否已经用过；回收边保持原有规则。记其路径范畴为 $\widehat{\mathcal C}_b$。
+
+\begin{proposition}[遗忘函子及其限制]\label{cat:forgetful}
+删除状态中的 $U$，并保留每条边的操作种类与金额，给出函子
+\[
+Q_b:\mathcal C_b\longrightarrow\widehat{\mathcal C}_b.
+\]
+若 $\widehat\Phi_b$ 是放宽模型中按式\eqref{cat:generator-statistics}定义的统计函子，则
+\begin{equation}\label{cat:forgetful-square}
+\widehat\Phi_b\circ Q_b=\Phi_b.
+\end{equation}
+但是，放宽图中的合法路径未必能还原为原图中的合法路径。
+\end{proposition}
+\begin{proof}
+原图中的 $U\subseteq J$ 保证 $s\le4950$，所以删除 $U$ 后得到放宽图的对象。原付款边满足放宽图的全部条件；其余四个状态分量的更新也没有改变。回收边的条件与更新不涉及 $U$，故也被保留。由定理\ref{cat:free-property}得到 $Q_b$。两边统计函子在每条付款边上都取 $(1,0,j)$，在每条回收边上都取 $(0,1,0)$；延拓唯一性证明式\eqref{cat:forgetful-square}。
+
+取 $b=411$。放宽图允许从初态依次执行
+\[
+P_1,\ R_1,\ P_1,\ R_1.
+\]
+每次付款都有足够余额，每次回收前 $c=1$，两次回收均未超过上限，累计为 $2\le4950$。但原图在第一次付款后已经有 $1\in U$，第一次回收又不删除 $U$ 中的元素，所以第二次 $P_1$ 不符合 $j\notin U$。因此这条指定的放宽路径不能提升为原图中的路径。
+\end{proof}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth,semithick]
+\node (c) at (0,0) {$\mathcal C_b$};
+\node (d) at (6,0) {$\widehat{\mathcal C}_b$};
+\node (m1) at (0,-2.0) {$\mathbf B(\mathbb N_0^3)$};
+\node (m2) at (6,-2.0) {$\mathbf B(\mathbb N_0^3)$};
+\draw[->] (c) -- node[above] {$Q_b$} (d);
+\draw[->] (c) -- node[left] {$\Phi_b$} (m1);
+\draw[->] (d) -- node[right] {$\widehat\Phi_b$} (m2);
+\draw[->] (m1) -- node[below] {$\mathrm{id}$} (m2);
+\end{tikzpicture}
+\caption{遗忘已用金额集合时累计统计保持不变的交换图}
+\label{cat:forgetful-diagram}
+\end{figure}
+
+图\ref{cat:forgetful-diagram}的交换性是函子相等式\eqref{cat:forgetful-square}。它说明统计保持，并不说明放宽模型新增的路径也满足互异约束。若错误地删去这一约束，例如用本金 $405$ 先支付四次 $99$，回收 $396$ 后再支付五次 $81$，最后回收 $405$，放宽模型就会报告
+\[
+4\times99+5\times81=396+405=801,
+\qquad \widehat\Phi_{405}(p)=(9,2,801).
+\]
+两轮各自没有超过本金，但金额重复，因此这个更低本金的过程不属于本任务的可行集合。累计统计符合目标，不能替代完整状态的合法性检查。
+
+\section{确认方案的完整路径及各层信息}
+
+\begin{example}[九笔方案的路径记录]\label{cat:actual-path}
+取 $b=411$，记
+\[
+U_1=\{96,97,98,99\},\qquad
+U_2=\{37,92,93,94,95,96,97,98,99\}.
+\]
+依次付款 $99,98,97,96$，回收 $390$，再付款 $95,94,93,92,37$，最后回收 $411$。表\ref{cat:actual-states}记录每个关键事件后的状态；事件编号同时计算付款与回收，所以第 $11$ 个事件结束时共有九笔有效付款。
+
+\begin{table}[htbp]
+\centering
+\caption{确认方案的状态记录，金额单位为百元}
+\label{cat:actual-states}
+\begin{tabular}{crrrcc}
+\toprule
+事件后 & $a$ & $c$ & $s$ & $U$ & $r$\\
+\midrule
+$q_0$    & 411 & 0   & 0   & $\varnothing$ & 0\\
+$q_4$    & 21  & 390 & 390 & $U_1$ & 0\\
+$q_5$    & 411 & 0   & 390 & $U_1$ & 1\\
+$q_{10}$ & 0   & 411 & 801 & $U_2$ & 1\\
+$q_{11}$ & 411 & 0   & 801 & $U_2$ & 2\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+第一轮的四个付款前缀为 $99,197,294,390$，均不超过 $411$。第一次回收后，第二轮的五个付款前缀为 $95,189,282,374,411$，也均不超过 $411$。九个金额不重复，所以每条付款边都满足余额与已用集合条件。两条回收边发生时接收端余额分别为 $390$ 和 $411$，均为正数，且回收前的 $r$ 分别为 $0$ 与 $1$。因此整个边序列确实构成 $\mathcal C_{411}$ 中的一条路径 $p_*$。
+
+其终点满足 $c=0$、$s=801$、$|U_2|=9$，并且
+\[
+\Phi_{411}(p_*)=(9,2,801).
+\]
+这三个数分别对应九笔付款、两次柜台回收和 $80100$ 元有效累计。初末两状态的付款账户余额同为 $411$，因此 $41100$ 元本金全部收回。
+\end{example}
+
+本模型保留了四种不同的信息：合法状态中的 $a,c$ 记录每一步是否有足够资金；集合 $U$ 记录金额是否重复；$r$ 记录柜台回收限制；路径本身记录先后次序和最后一笔。函子 $\Phi_b$ 提取可加的付款笔数、柜台次数和累计金额，资源函子 $I_{b,b+d}$ 则说明增加本金如何保留原有方案。它们各自保留的信息已经由相应命题说明，不能用累计三元组代替全部执行条件。
+
+\chapter{一般化、边界条件与有限算法}\label{gen:chapter}
+
+\section{金额单位和严格门槛的一般形式}
+设金额单位为 $q>0$，单笔上限参数为 $U>0$，累计门槛为 $T>0$。有效付款满足 $\alpha_i\in q\Z_{>0}$、$\alpha_i<U$、金额互异，并要求累计严格大于 $T$。
+
+\begin{proposition}[一般整数化]\label{gen:rounding}
+令
+\begin{equation}\label{gen:Ns}
+N=\left\lceil\frac Uq\right\rceil-1,
+\qquad
+s=\left\lfloor\frac Tq\right\rfloor+1.
+\end{equation}
+则金额条件等价于从 $1,\ldots,N$ 中选不同正整数 $x_i$，且 $\sum x_i\ge s$。若至少存在一个固定的全额回收分组方案，则对该方案搜索最少本金时，可以只搜索 $q$ 的整数倍。
+\end{proposition}
+\begin{proof}
+对整数 $x$，条件 $qx<U$ 等价于 $x<U/q$。设 $c=\lceil U/q\rceil$。由上取整定义有 $c-1<U/q\le c$。所以允许的整数恰好不超过 $c-1=N$。对整数总和 $v$，$qv>T$ 等价于 $v>T/q$；由下取整定义，满足它的最小整数为 $s=\lfloor T/q\rfloor+1$。
+
+再设某固定分组的整数轮合计为 $s_1,\ldots,s_r$。它的最少本金为 $q\max s_i$：每轮没有回流，必须覆盖本轮合计；各笔为正且轮末全额回收时，这个最大值又足够。因此该最少本金本身是 $q$ 的整数倍。若某个任意实数本金 $B$ 已经可行，则每个整数 $s_i\le B/q$，从而 $s_i\le\lfloor B/q\rfloor$；把本金降至 $q\lfloor B/q\rfloor$ 后仍能覆盖各轮。
+\end{proof}
+
+\begin{proposition}[不限制本金时的最少笔数]\label{gen:nmin}
+若 $N\ge1$ 且 $1\le s\le N(N+1)/2$，不另外限制非空轮数时，最少笔数为
+\begin{equation}\label{gen:nroot}
+n_0=\left\lceil
+\frac{2N+1-\sqrt{(2N+1)^2-8s}}2
+\right\rceil.
+\end{equation}
+若 $N<1$ 或 $s>N(N+1)/2$，没有可行的金额集合。
+\end{proposition}
+\begin{proof}
+若 $N<1$，不存在允许的正整数金额。若 $s>N(N+1)/2$，即使选用全部允许金额也不能达到门槛，因此不可行。
+
+在其余条件下，选 $n$ 个不同整数能达到门槛，当且仅当 $H_N(n)\ge s$。必要性来自最大总和引理；充分性由选择最大的 $n$ 个整数给出。差分
+\[
+H_N(n+1)-H_N(n)=N-n>0\qquad(0\le n<N)
+\]
+表明最大总和随笔数严格增加。代入 $H_N(n)$ 并整理，
+\[
+H_N(n)\ge s
+\quad\Longleftrightarrow\quad
+n^2-(2N+1)n+2s\le0.
+\]
+判别式 $D=(2N+1)^2-8s$ 满足 $D\ge1$。二次多项式的两个根为
+\[
+r_- =\frac{2N+1-\sqrt D}{2},
+\qquad
+r_+ =\frac{2N+1+\sqrt D}{2}.
+\]
+由于 $\sqrt D\ge1$，有 $r_+\ge N+1$。在 $0\le n\le N$ 内，不等式因此等价于 $n\ge r_-$，其最小整数解为 $\lceil r_-\rceil$。
+\end{proof}
+
+若额外规定恰有两轮且每轮非空，还须满足 $n\ge2$；若规定 $r$ 轮非空，则还须 $n\ge r$。这些是执行结构的附加条件，不能从式\eqref{gen:nroot}的金额集合问题中自动得到。本例 $n_0=9$，两轮非空的条件不增加最少笔数。
+
+\section{两轮本金下界与其适用范围}
+\begin{proposition}[一般两轮下界]\label{gen:two-lower}
+固定 $2\le n\le N$，记
+\[
+s_n=\max\left\{s,\frac{n(n+1)}2\right\}.
+\]
+对整数预算 $b=B/q$，任何两轮方案都必须满足
+\begin{equation}\label{gen:two-bound}
+b\ge\max\left\{
+\left\lceil\frac{s_n}{2}\right\rceil,
+s_n-H_N\left(\left\lfloor\frac n2\right\rfloor\right)
+\right\}.
+\end{equation}
+另外，令 $M=\min\{N,b\}$，首先必须有 $M\ge n$；在此条件成立时，还必须有 $H_M(n)\ge s_n$。
+\end{proposition}
+\begin{proof}
+$n$ 个不同正整数的总和至少为 $n(n+1)/2$，任务又要求总和至少为 $s$，所以实际总和至少为 $s_n$。每轮最多支付 $b$，故 $2b\ge s_n$；$b$ 是整数，得到第一个下界。
+
+两轮中至少一轮不超过 $\lfloor n/2\rfloor$ 笔。该轮总和由引理\ref{int:maxsum}不超过 $H_N(\lfloor n/2\rfloor)$。另一轮至少要支付 $s_n-H_N(\lfloor n/2\rfloor)$，由本轮预算限制得到第二个下界。
+
+每笔金额既不超过单笔上限 $N$，也不超过它所在轮的预算 $b$，所以每笔都在 $1,\ldots,M$ 中。要选出 $n$ 个互异值，必须有 $M\ge n$；它们的最大总和为 $H_M(n)$，故还必须有 $H_M(n)\ge s_n$。
+\end{proof}
+
+\begin{example}[一般下界未必就是精确答案]
+取 $N=5,n=2,s=6$。式\eqref{gen:two-bound}只给出 $b\ge3$。但是本金 $b=3$ 时，两笔不同金额都不能超过 $3$，总和最多为 $3+2=5$，达不到 $6$。实际可取 $2,4$ 各为一轮，本金为 $4$。因此一般公式需要与金额互异等条件共同使用，不能把一个已证必要条件直接宣布为充分条件。本例九笔的 $411$ 下界之所以是精确答案，是因为另有满足所有条件的达到构造。
+\end{example}
+
+\section{柜台次数与分组问题}
+\begin{proposition}[全额回收与分组的等价]\label{gen:partition}
+给定一个已经满足金额范围、互异及累计门槛的整数金额集合，允许至多 $r$ 次柜台全额回收，并且最后必须全额收回本金。对本金 $b$，可执行性等价于能够把金额集合分成至多 $r$ 个非空组，使每组整数总和不超过 $b$。
+\end{proposition}
+\begin{proof}
+一个完成的执行过程被每次全额回收分隔成付款轮次。无付款的回收环节不产生正额回收，可以删除而不影响任务。每个非空付款轮次在下一次回收之前没有回流，因此其总付款不超过该轮开始时的 $b$。最终完成要求最后一个非空轮次也跟随一次回收，所以非空轮次不超过回收次数 $r$。这些轮次给出所需分组。
+
+反过来，给定不超过 $r$ 个非空组，逐组支付，组内任意安排正额付款。每个付款前缀不超过本组总和，故不会超过 $b$；支付该组后全额回收，使付款侧恢复 $b$，再进行下一组。最后一组也回收，全部本金返回，回收次数恰为组数，不超过 $r$。
+\end{proof}
+
+\begin{example}[改变回收次数确实会改变本金]
+保持本例金额条件与最少九笔，比较几种不同的柜台次数。
+
+若只允许最后一次回收，所有付款必须先由本金覆盖，故本金至少 $80100$ 元。连续金额 $8500,\ldots,9300$ 的总和为 $80100$ 元，达到此界。
+
+若允许两次回收，定理\ref{int:capital}给出 $41100$ 元。
+
+若允许三次回收，每轮最多支付 $b$，所以 $3b\ge801$，得到 $b\ge267$。三组
+\[
+\{80,89,98\},\qquad\{81,90,96\},\qquad\{82,91,94\}
+\]
+各自总和均为 $267$，九个金额互异且不超过 $99$，总和为 $801$。所以本金 $26700$ 元可以达到三次回收情况下的下界。
+
+若每笔付款后都全额回收，九笔需要九次回收。设单笔最大整数为 $m$，则九个互异金额的总和至多 $H_m(9)=9m-36$。要求至少 $801$ 给出 $m\ge93$。任何分组所需本金都不小于最大单笔，因此允许至多九次回收时，本金仍至少为 $9300$ 元。选择 $85,86,\ldots,93$，每笔后回收，所需本金为 $9300$ 元。这里的次数已经从两次变为九次，不能用它替代本文主任务的答案。
+\end{example}
+
+\begin{table}[htbp]
+\centering
+\caption{不同柜台次数下的若干精确结果（均为九笔）}
+\begin{tabular}{@{}rrl@{}}
+\toprule
+回收次数上限 & 最少本金（元） & 达到下界的轮合计（元）\\
+\midrule
+1 & 80100 & $80100$\\
+2 & 41100 & $39000,41100$\\
+3 & 26700 & $26700,26700,26700$\\
+9 & 9300 & 每笔分别回收，最大单笔 $9300$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{严格不等号不能省略}
+\begin{proposition}[四种边界约定]\label{gen:boundaries}
+保持整百、互异、两轮及九笔优先，表\ref{gen:boundary-table}列出的四种约定分别具有所示的最低本金和最小尾款。
+\end{proposition}
+\begin{table}[htbp]
+\centering
+\caption{改变等号约定后的九笔最优值}\label{gen:boundary-table}
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+单笔条件 & 累计条件 & $N$ & $s$ & 本金（元） & 尾款（元）\\
+\midrule
+$\alpha_i<10000$ & $\sum\alpha_i>80000$ & 99 & 801 & 41100 & 3700\\
+$\alpha_i<10000$ & $\sum\alpha_i\ge80000$ & 99 & 800 & 41000 & 3600\\
+$\alpha_i\le10000$ & $\sum\alpha_i>80000$ & 100 & 801 & 40700 & 2900\\
+$\alpha_i\le10000$ & $\sum\alpha_i\ge80000$ & 100 & 800 & 40600 & 2800\\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{proof}
+对于 $N=99$，四笔最大和为 $390$，八笔最大和为 $764$；对于 $N=100$，相应数值为
+\[
+H_{100}(4)=100+99+98+97=394,
+\]
+\[
+H_{100}(8)=100+99+\cdots+93=772.
+\]
+四种情形的八笔最大总和都小于 $s$，因此均至少需要九笔。在九笔两轮条件下，一轮至多四笔，所以本金下界为 $q(s-H_N(4))$；尾款下界为 $q(s-H_N(8))$。把 $q=100$ 以及四组 $(N,s)$ 逐一代入，分别得到表中结果。
+
+为核对每个下界都能够达到，取前八笔为 $N,N-1,\ldots,N-7$，尾款为 $t=s-H_N(8)$，在第四笔后回收。第一轮和为 $H_N(4)$，第二轮和为
+\[
+H_N(8)-H_N(4)+t=s-H_N(4).
+\]
+四种情况下尾款分别为 $37$、$36$、$29$、$28$，都为正且不在相应前八个大整数中。第二轮和分别为 $411$、$410$、$407$、$406$，都不小于第一轮的 $390$ 或 $394$。因此所列本金覆盖两轮，且总和恰为 $s$。四组下界均由合法构造达到。
+\end{proof}
+
+\section{精确的有限动态规划}
+\begin{definition}[带两轮负载的状态]\label{gen:dp-state}
+对固定非负整数预算 $b$ 和总笔数 $n$，取整数索引 $0\le j\le N$、$0\le k\le n$、$0\le u,v\le b$。令 $D_j(k,u,v)$ 为布尔量，表示能否只使用 $1,\ldots,j$ 中的金额，选出合计 $k$ 笔，分别放入两轮，使两轮总和恰为 $u,v$。一个金额只能不选、放第一轮、放第二轮三选一。
+\end{definition}
+
+\begin{theorem}[动态规划的正确性]\label{gen:dp}
+初值为 $D_0(0,0,0)=\mathrm{true}$，其余 $D_0$ 为假。对所有负下标或超出范围的状态约定为假，则
+\begin{equation}\label{gen:dp-recursion}
+\begin{split}
+D_j(k,u,v)={}&D_{j-1}(k,u,v)\\
+&\lor D_{j-1}(k-1,u-j,v)\\
+&\lor D_{j-1}(k-1,u,v-j).
+\end{split}
+\end{equation}
+存在两轮非空可行方案，当且仅当至少一个满足
+\[
+1\le u,v\le b,\qquad u+v\ge s
+\]
+的终态 $D_N(n,u,v)$ 为真。
+\end{theorem}
+\begin{proof}
+当没有允许金额时，只能选空集，且两轮和均为零，因此初值正确。假定所有 $D_{j-1}$ 已经准确表示各状态。考虑一个使用 $1,\ldots,j$ 的方案。若没有使用 $j$，它对应递推的第一项。若把 $j$ 放第一轮，删除这一笔后得到 $k-1$ 笔及负载 $u-j,v$，对应第二项。若把 $j$ 放第二轮，删除后负载为 $u,v-j$，对应第三项。这三个情形互相排斥且包含所有合法选择，因此任一方案必来自递推右端。
+
+反过来，第一项为真时原方案仍然合法；第二项为真时，把尚未出现的 $j$ 加入第一轮；第三项为真时，把 $j$ 加入第二轮。较早状态只用到 $1,\ldots,j-1$，所以加入 $j$ 不产生重复。三种构造均给出左端状态。由从 $j=0$ 到 $j=N$ 的归纳，递推准确。
+
+终态的 $u,v\ge1$ 保证两轮非空，$u,v\le b$ 保证预算可行，$u+v\ge s$ 保证累计达标。命题\ref{model:two-loads}把这些分组条件转化为实际可执行性。反向由任何两轮可行方案读出这样的终态。
+\end{proof}
+
+状态数不超过 $(N+1)(n+1)(b+1)^2$，每个状态只检查三个前驱。只保存相邻两层 $j-1,j$ 时，存储量不超过两层的状态数。这里的大小随金额整数的数值增长；它提供一个完整的有限判定方法，并不意味着对任意大输入都具有低成本。
+
+对于本例，等号分类已把候选压缩为五个不同整数和为 $411$，使用第六章的分拆递推更简洁。附录给出独立的五元组枚举与执行账本核验，以便读者逐项复算。
+
+\clearpage
+\section{不同数学表述之间保留的信息}
+\begin{table}[htbp]
+\centering
+\caption{数学工具与本问题中的实际作用}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+角度 & 直接刻画的内容 & 仍须保留的条件\\
+\midrule
+数论与组合 & 整数上界、连续总和、同余与分拆 & 两轮各自预算\\
+数学分析 & 分段预算函数、左右导数、扰动界 & 离散切点与金额合法性\\
+高等代数 & 余额更新、守恒量、前缀矩阵 & 金额范围与互异\\
+有限维泛函分析 & 最大轮负载、对偶泛函、支撑证书 & 整数指派与非空轮次\\
+抽象代数 & 次数与权重同态、整数核、生成函数 & $0/1$ 系数和轮次标签\\
+范畴论 & 合法状态、路径连接、计数函子 & 具体图中的付款与回收规则\\
+有限算法 & 遍历所有剩余离散可能 & 输入门槛与状态语义\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+这些表述的对象不同，但它们必须描述同一条执行过程。若只保留累计总和而丢弃分组，会误把平均负载当作本金；若只保留资金余额而丢弃已用金额集合，会允许重复付款；若忽略最后一次回收，会把三轮方案误记成两次柜台。完整模型将这些信息同时保存，因而各章所得数值彼此相容。
+
+\section{结论}
+在本书明确的任务条件与优先次序下，最少付款笔数为九，九笔最低本金为 $41100$ 元。要求前八笔连续整百、最后一笔补差时，尾款最低为 $3700$ 元；递减执行并在第四笔后回收达到全部下界。所有九笔最低本金金额集合恰有 \OptimalSetCount\ 个，附加最小尾款与连续递减顺序后选出本文的具体执行流程。
+
+数论确定离散门槛与计数；矩阵方法把守恒与余额写成线性关系；对偶泛函给出可核验的下界证书；整数格和生成函数组织全部金额选择；路径范畴则区分合法执行与遗忘信息后的统计记录。各工具所证明的内容和限制均在对应章节中给出。
+
+\appendix
+\chapter{复算算法与执行清单}\label{app:chapter}
+
+\section{程序核验的范围}
+正文已经独立证明了最少笔数、本金下界、尾款下界及所有等号情形。下面的代码以不同方式复核有限计数与具体账本：直接枚举五个金额，另用整数分拆递推得到同一个计数，并逐事件检查余额。它不把数值程序的输出代替数学证明，也不声称已经完成证明助手中的形式化验证。
+
+\section{全部最优集合的两种独立计数}
+以下 Python 代码仅使用标准库。第一段不使用整数分拆双射，而是直接枚举前四个金额，再由总和确定第五个；第二段从分拆递推计算 $p_5(54)$。
+\begin{Verbatim}[fontsize=\small,frame=single]
+from itertools import combinations
+
+optimal = []
+for a, b, c, d in combinations(range(1, 96), 4):
+    e = 411 - a - b - c - d
+    if d < e <= 95:
+        optimal.append((a, b, c, d, e))
+
+p = [[0] * 55 for _ in range(6)]
+p[0][0] = 1
+for j in range(1, 6):
+    for s in range(55):
+        p[j][s] = p[j - 1][s]
+        if s >= j:
+            p[j][s] += p[j][s - j]
+
+assert len(optimal) == p[5][54] == 4932
+print([p[j][54] for j in range(1, 6)])
+# [1, 28, 271, 1425, 4932]
+\end{Verbatim}
+
+直接枚举不会重复计算一个五元组，因为其前四个递增坐标唯一确定，且第五个由总和唯一确定。它也不会漏掉满足条件的五元组：任何这样的五元组，其前四项都会出现在 \texttt{combinations} 中，计算出的第五项就是原来的第五项。递推代码的正确性由正文的分拆递推证明给出。
+
+\clearpage
+\section{逐事件检查资金余额}
+\begin{Verbatim}[fontsize=\small,frame=single]
+payments = [99, 98, 97, 96, 95, 94, 93, 92, 37]
+capital = available = 411
+received = cumulative = visits = 0
+assert len(set(payments)) == 9
+
+for i, amount in enumerate(payments, 1):
+    assert 1 <= amount <= 99
+    available -= amount
+    received += amount
+    cumulative += amount
+    assert available >= 0 and received >= 0
+    assert available + received == capital
+    if i in (4, 9):
+        available += received
+        received = 0
+        visits += 1
+
+assert cumulative == 801
+assert available == 411 and received == 0
+assert visits == 2
+\end{Verbatim}
+
+这里全部数值均以百元为单位。实际执行时，乘以 $100$ 元即可。第一次回收发生在第四笔后，第二次回收发生在第九笔后；最终两个余额的断言同时验证本金已经全部返回付款侧。
+
+\section{最终执行清单}
+\begin{enumerate}
+\item 准备 $41100$ 元。在去柜台前依次付款 $9900,9800,9700,9600$ 元，共 $39000$ 元，付款侧保留 $2100$ 元。
+\item 第一次到柜台，全额回收 $39000$ 元。与保留的 $2100$ 元合并，可用本金恢复为 $41100$ 元。
+\item 依次付款 $9500,9400,9300,9200,3700$ 元，共 $41100$ 元。有效付款累计成为 $80100$ 元，付款侧本任务余额为零。
+\item 第二次到柜台，全额回收 $41100$ 元，全部本金返回。
+\end{enumerate}
+
+九笔按发生顺序记录时，前八笔为 $9900$ 至 $9200$ 的连续递减整百数列，最后一笔为 $3700$ 元。两次回收均已计入流程。
+
+\backmatter
+\begin{thebibliography}{9}
+\addcontentsline{toc}{chapter}{参考文献}
+\bibitem{boyd}
+Boyd, S., Vandenberghe, L.
+\textit{Convex Optimization}.
+Cambridge University Press, 2004.
+作者公开电子版：\url{https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf}。
+访问日期：2026年11月8日。
+
+\bibitem{judson}
+Judson, T. W.
+\textit{Abstract Algebra: Theory and Applications}.
+2024年电子版。
+\url{https://judsonbooks.org/aata-files/aata-20240706.pdf}。
+访问日期：2026年11月8日。
+
+\bibitem{stanley}
+Stanley, R. P.
+\textit{Enumerative Combinatorics, Volume 1}, 2nd ed.
+Cambridge University Press, 2012.
+作者公开稿日期为2011年7月15日：\url{https://math.mit.edu/~rstan/ec/ec1.pdf}。
+版本说明：\url{https://math.mit.edu/~rstan/ec/ec1/}。
+访问日期：2026年11月8日。
+
+\bibitem{riehl}
+Riehl, E.
+\textit{Category Theory in Context}.
+作者公开电子稿（第二版）。
+\url{https://emilyriehl.github.io/files/context.pdf}。
+访问日期：2026年11月8日。
+\end{thebibliography}
+\end{document}
